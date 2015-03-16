@@ -1,1 +1,2 @@
 # chess
+Small chess application

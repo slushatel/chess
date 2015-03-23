@@ -1,4 +1,4 @@
-package com.javamonkeys.UserDAO;
+package com.javamonkeys.dao.user;
 
 public class UserNotFoundException extends Exception {
 

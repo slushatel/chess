@@ -7,7 +7,7 @@ public class UserDAO {
         return new User();
     }
 
-    public User createUser(String eMail, String password) {
+    public User createUser(String eMail, String password) throws UserAlreadyExistException {
         // TODO: create method
         return new User();
     }

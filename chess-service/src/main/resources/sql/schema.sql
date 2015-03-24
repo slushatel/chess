@@ -1,0 +1,1 @@
+CREATE TABLE dummy_table (name VARCHAR (50), surname VARCHAR (50))

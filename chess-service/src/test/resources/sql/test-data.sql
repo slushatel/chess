@@ -1,0 +1,1 @@
+insert into dummy_table VALUES ('Alex','Serdiukov')

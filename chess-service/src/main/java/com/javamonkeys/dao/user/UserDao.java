@@ -1,5 +1,7 @@
 package com.javamonkeys.dao.user;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.Date;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Date;
  *   - class "User" (create/get/delete)
  *   - class "UserAccessGroup" (create/get/delete)
  */
+@Repository
 public class UserDao implements IUserDao {
 
     /**

@@ -1,10 +1,23 @@
 package com.javamonkeys.dao.user;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "UserAccessGroups")
 public class UserAccessGroup {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "isadmin")
     private boolean isAdmin;
+
+    protected UserAccessGroup(){}
 
     UserAccessGroup(String name, boolean isAdmin){
         setName(name);

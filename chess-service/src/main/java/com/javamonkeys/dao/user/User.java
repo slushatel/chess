@@ -1,14 +1,31 @@
 package com.javamonkeys.dao.user;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "Users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "email", unique=true)
     private String email;
+
+    @Column(name = "password")
     private String password;
+
+    @Column(name = "birthDate")
     private Date birthDate;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "userAccessGroup_id")
     private UserAccessGroup userAccessGroup;
+
+    protected User(){}
 
     User(String email, String password){
         setEmail(email);

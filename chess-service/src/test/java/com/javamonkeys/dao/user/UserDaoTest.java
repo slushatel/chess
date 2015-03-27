@@ -16,13 +16,16 @@ import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:test-dao-config.xml"})
-public class TestUserDao {
+public class UserDaoTest {
 
     @Inject
     IUserDao userDao;
 
     private String currentUserEmail = "filippov@javamonkeys.com";
 
+    /* Test method for creating user
+     *
+     */
     @Test
     public void testCreateUser1(){
 
@@ -43,6 +46,13 @@ public class TestUserDao {
         }
     }
 
+    @Test(expected = UserAlreadyExistException.class)
+    public void testCreateUser1Exception() throws UserAlreadyExistException {
+
+        userDao.createUser("serdyukov@javamonkeys.com", "12345", null);
+
+    }
+
     @Test
     public void testCreateUser2(){
 
@@ -61,6 +71,13 @@ public class TestUserDao {
         } catch (UserAlreadyExistException e) {
             fail(String.format("User with email %s is already exist", email));
         }
+    }
+
+    @Test(expected = UserAlreadyExistException.class)
+    public void testCreateUser2Exception() throws UserAlreadyExistException {
+
+        userDao.createUser("serdyukov@javamonkeys.com", "12345", null, new Date());
+
     }
 
     @Test

@@ -16,7 +16,7 @@ public class GameDao implements IGameDao{
 
         HibernateUtil.begin();
         Session session = HibernateUtil.getSession();
-        Query query = session.createQuery("from Games where id = :id");
+        Query query = session.createQuery("from Game where id = :id");
         query.setParameter("id", id);
         Game currentGame = (Game)query.uniqueResult();
         HibernateUtil.commit();
@@ -48,13 +48,13 @@ public class GameDao implements IGameDao{
     }
 
     @Override
-    public Game saveGame(Game game) {
+    public Game updateGame(Game game) {
 
         try {
 
             HibernateUtil.begin();
             Session session = HibernateUtil.getSession();
-            session.save(game);
+            session.update(game);
             HibernateUtil.commit();
             HibernateUtil.close();
 
@@ -73,6 +73,6 @@ public class GameDao implements IGameDao{
         Game currentGame = getGame(id);
         String newMoveText = currentGame.getMoveText()+turn;
         currentGame.setMoveText(newMoveText);
-        saveGame(currentGame);
+        updateGame(currentGame);
     }
 }

@@ -10,7 +10,7 @@ public interface IGameDao {
 
     public Game createGame(User author);
 
-    public Game saveGame(Game currentGame);
+    public Game updateGame(Game currentGame);
 
     public void saveTurn(int id, String turn);
 

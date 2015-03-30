@@ -1,26 +1,45 @@
 package com.javamonkeys.dao.game;
 
 import com.javamonkeys.dao.user.User;
-
+import javax.persistence.*;
 import java.util.Date;
 
 
+@Entity
+@Table(name = "Games")
 public class Game {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "matchDate")
     Date matchDate;
-    private String tournament;
-    private String round;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "author_id")
+    private User author;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "white_id")
     private User white;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "black_id")
     private User black;
+
+    @Column(name = "result")
     private String result;
+
+    @Column(name = "moveText")
     private String moveText;
 
-    public Game(Date matchDate, User white, User black, int id) {
-        this.matchDate = matchDate;
-        this.white = white;
-        this.black = black;
-        this.id = id;
+    protected Game(){}
+
+    public Game(User author) {
+        setMatchDate(new Date());
+        setAuthor(author);
     }
 
     public int getId() {
@@ -37,22 +56,6 @@ public class Game {
 
     public void setMatchDate(Date matchDate) {
         this.matchDate = matchDate;
-    }
-
-    public String getTournament() {
-        return tournament;
-    }
-
-    public void setTournament(String tournament) {
-        this.tournament = tournament;
-    }
-
-    public String getRound() {
-        return round;
-    }
-
-    public void setRound(String round) {
-        this.round = round;
     }
 
     public User getWhite() {
@@ -86,4 +89,13 @@ public class Game {
     public void setMoveText(String moveText) {
         this.moveText = moveText;
     }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
 }

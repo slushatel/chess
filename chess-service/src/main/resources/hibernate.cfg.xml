@@ -11,6 +11,7 @@
 
         <mapping class="com.javamonkeys.dao.user.User"/>
         <mapping class="com.javamonkeys.dao.user.UserAccessGroup"/>
+        <mapping class="com.javamonkeys.dao.game.Game"/>
 
     </session-factory>
 </hibernate-configuration>

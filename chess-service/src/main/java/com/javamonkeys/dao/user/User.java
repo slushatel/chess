@@ -21,6 +21,9 @@ public class User {
     @Column(name = "birthDate")
     private Date birthDate;
 
+    @Column(name = "token")
+    private String token;
+
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "userAccessGroup_id")
     private UserAccessGroup userAccessGroup;
@@ -129,6 +132,22 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * Get token.
+     * @return current user token
+     */
+    public String getToken() {
+        return token;
+    }
+
+    /**
+     * Set user token.
+     * @param token new user token
+     */
+    public void setToken(String token) {
+        this.token = token;
     }
 
 }

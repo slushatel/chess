@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Class which implemented IUserDao interface.
@@ -33,6 +34,10 @@ public class UserDao implements IUserDao {
         getSession().delete(entity);
     }
 
+    private void merge(Object entity) {
+        getSession().merge(entity);
+    }
+
     /**
      * Find user by email.
      *
@@ -40,19 +45,33 @@ public class UserDao implements IUserDao {
      * @return user
      */
     @Transactional
-    public User getUser(String email) {
+    public User getUserByEmail(String email) {
 
-        if (email != null) {
-
-            Query query = getSession().createQuery("from User where email = :email");
-            query.setParameter("email", email);
-            User currentUser = (User) query.uniqueResult();
-
-            return currentUser;
-
-        } else {
+        if (email==null)
             return null;
-        }
+
+        Query query = getSession().createQuery("from User where email = :email");
+        query.setParameter("email", email);
+
+        return (User) query.uniqueResult();
+    }
+
+    /**
+     * Find user by token.
+     *
+     * @param token user token
+     * @return user
+     */
+    @Transactional
+    public User getUserByToken(String token) {
+
+        if (token == null)
+            return null;
+
+        Query query = getSession().createQuery("from User where token = :token");
+        query.setParameter("token", token);
+
+        return (User) query.uniqueResult();
     }
 
     /**
@@ -69,24 +88,23 @@ public class UserDao implements IUserDao {
     public User createUser(String email, String password, UserAccessGroup userAccessGroup) throws UserAlreadyExistException,
             IllegalArgumentException {
 
-        if (email == null) {
+        if (email == null)
             throw new IllegalArgumentException("email: " + email + " is not valid");
-        } else if (password == null) {
+
+        if (password == null)
             throw new IllegalArgumentException("password: " + password + " is not valid");
-        } else if (userAccessGroup == null) {
+
+        if (userAccessGroup == null)
             throw new IllegalArgumentException("userAccessGroup: " + userAccessGroup + " is not valid");
-        } else {
 
-            User currentUser = getUser(email);
-            if (currentUser != null) {
-                throw new UserAlreadyExistException("User with email: " + email + " is already exist.");
-            }
+        User currentUser = getUserByEmail(email);
+        if (currentUser!=null)
+            throw new UserAlreadyExistException("User with email: " + email + " is already exist.");
 
-            User newUser = new User(email, password, userAccessGroup);
-            save(newUser);
+        User newUser = new User(email, password, userAccessGroup);
+        save(newUser);
 
-            return newUser;
-        }
+        return newUser;
     }
 
     /**
@@ -104,26 +122,26 @@ public class UserDao implements IUserDao {
     public User createUser(String email, String password, UserAccessGroup userAccessGroup, Date birthDate) throws UserAlreadyExistException,
             IllegalArgumentException {
 
-        if (email == null) {
+        if (email == null)
             throw new IllegalArgumentException("argument \"email\": value " + email + " is not valid");
-        } else if (password == null) {
+
+        if (password == null)
             throw new IllegalArgumentException("argument \"password\": value " + password + " is not valid");
-        } else if (userAccessGroup == null) {
+
+        if (userAccessGroup == null)
             throw new IllegalArgumentException("argument \"userAccessGroup\": value " + userAccessGroup + " is not valid");
-        } else if (birthDate == null) {
+
+        if (birthDate == null)
             throw new IllegalArgumentException("argument \"birthDate\": value " + birthDate + " is not valid");
-        } else {
 
-            User currentUser = getUser(email);
-            if (currentUser != null) {
-                throw new UserAlreadyExistException("User with email: " + email + " is already exist.");
-            }
+        User currentUser = getUserByEmail(email);
+        if (currentUser!=null)
+            throw new UserAlreadyExistException("User with email: " + email + " is already exist.");
 
-            User newUser = new User(email, password, birthDate, userAccessGroup);
-            save(newUser);
+        User newUser = new User(email, password, birthDate, userAccessGroup);
+        save(newUser);
 
-            return newUser;
-        }
+        return newUser;
     }
 
     /**
@@ -136,16 +154,14 @@ public class UserDao implements IUserDao {
     @Transactional
     public void deleteUser(User user) throws UserNotFoundException, IllegalArgumentException {
 
-        if (user != null) {
-            User currentUser = getUser(user.getEmail());
-            if (currentUser == null){
-                throw new UserNotFoundException("User " + user + " not found");
-            } else {
-                delete(currentUser);
-            }
-        } else {
+        if (user==null)
             throw new IllegalArgumentException("argument \"user\": value \" + user + \" is not valid");
-        }
+
+        User currentUser = getUserByEmail(user.getEmail());
+        if (currentUser == null)
+            throw new UserNotFoundException("User " + user + " not found");
+
+        delete(currentUser);
     }
 
     /**
@@ -157,17 +173,13 @@ public class UserDao implements IUserDao {
     @Transactional
     public UserAccessGroup getUserAccessGroup(String name) {
 
-        if (name != null) {
-
-            Query query = getSession().createQuery("from UserAccessGroup where name = :name");
-            query.setParameter("name", name);
-            UserAccessGroup currentGroup = (UserAccessGroup) query.uniqueResult();
-
-            return currentGroup;
-
-        } else {
+        if (name==null)
             return null;
-        }
+
+        Query query = getSession().createQuery("from UserAccessGroup where name = :name");
+        query.setParameter("name", name);
+
+        return (UserAccessGroup) query.uniqueResult();
 
     }
 
@@ -184,22 +196,17 @@ public class UserDao implements IUserDao {
     public UserAccessGroup createUserAccessGroup(String name, boolean isAdmin) throws UserAccessGroupAlreadyExistException,
             IllegalArgumentException {
 
-        if (name != null) {
-
-
-            UserAccessGroup currentGroup = getUserAccessGroup(name);
-            if (currentGroup != null) {
-                throw new UserAccessGroupAlreadyExistException("User access group with name: " + name + " is already exist.");
-            }
-
-            UserAccessGroup newGroup = new UserAccessGroup(name, isAdmin);
-            save(newGroup);
-
-            return newGroup;
-
-        } else {
+        if (name==null)
             throw new IllegalArgumentException("argument \"name\": value " + name + " is not valid");
-        }
+
+        UserAccessGroup currentGroup = getUserAccessGroup(name);
+        if (currentGroup!=null)
+            throw new UserAccessGroupAlreadyExistException("User access group with name: " + name + " is already exist.");
+
+        UserAccessGroup newGroup = new UserAccessGroup(name, isAdmin);
+        save(newGroup);
+
+        return newGroup;
     }
 
     /**
@@ -213,16 +220,83 @@ public class UserDao implements IUserDao {
     public void deleteUserAccessGroup(UserAccessGroup userAccessGroup) throws UserAccessGroupNotFoundException,
             IllegalArgumentException {
 
-        if (userAccessGroup != null) {
-            UserAccessGroup currentGroup = getUserAccessGroup(userAccessGroup.getName());
-            if (currentGroup == null){
-                throw new UserAccessGroupNotFoundException("User access group " + userAccessGroup + " not found");
-            } else {
-                delete(currentGroup);
-            }
-        } else {
+        if (userAccessGroup==null)
             throw new UserAccessGroupNotFoundException("User access group: " + userAccessGroup + " was not found");
-        }
+
+        UserAccessGroup currentGroup = getUserAccessGroup(userAccessGroup.getName());
+        if (currentGroup==null)
+            throw new UserAccessGroupNotFoundException("User access group " + userAccessGroup + " not found");
+
+        delete(currentGroup);
     }
 
+    /**
+     * Login operation
+     * @param email user email
+     * @param password user password
+     * @throws IncorrectUserCredentials if passed incorrect email or password data
+     */
+    @Transactional
+    public String login(String email, String password) throws IncorrectUserCredentials {
+
+        if (email == null || password == null)
+            throw new IncorrectUserCredentials();
+
+        User currentUser = getUserByEmail(email);
+
+        if(currentUser==null || !currentUser.getPassword().equals(password))
+            throw new IncorrectUserCredentials();
+
+        String newToken = generateNewUniqueToken();
+        currentUser.setToken(newToken);
+        merge(currentUser);
+
+        return newToken;
+    }
+
+    /**
+     * Logout operation
+     * @param user current user
+     * @throws UserNotFoundException if user doesn't exist in DataBase
+     */
+    @Transactional
+    public void logout(User user) throws UserNotFoundException {
+
+        if (user == null)
+            throw new UserNotFoundException("User: " + user + "was not found");
+
+        User currentUser = getUserByEmail(user.getEmail());
+
+        if (currentUser == null)
+            throw new UserNotFoundException("User with email: " + user.getEmail() + "was not found");
+
+        currentUser.setToken(null);
+        merge(currentUser);
+    }
+
+    /**
+     * Register operation
+     * @param email user email
+     * @param password user password
+     * @throws UserAlreadyExistException if user doesn't exist in DataBase
+     */
+    @Transactional
+    public void register(String email, String password) throws UserAlreadyExistException {
+
+        User currentUser = getUserByEmail(email);
+
+        if(currentUser!=null)
+            throw new UserAlreadyExistException("User with email: " + email + " already exists");
+
+        User newUser = new User(email, password);
+        save(newUser);
+    }
+
+    /**
+     * Generate new unique String token
+     * @return token
+     */
+    public String generateNewUniqueToken() {
+        return UUID.randomUUID().toString();
+    }
 }

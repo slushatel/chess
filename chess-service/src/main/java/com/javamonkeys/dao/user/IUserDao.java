@@ -24,5 +24,7 @@ public interface IUserDao {
 
     public void logout(User user) throws UserNotFoundException;
 
+    public void register(String email, String password) throws UserAlreadyExistException;
+
     public String generateNewUniqueToken();
 }

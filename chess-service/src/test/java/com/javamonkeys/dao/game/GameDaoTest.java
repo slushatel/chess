@@ -28,11 +28,7 @@ public class GameDaoTest {
 
         UserDao userDao = new UserDao();
 
-        try {
-            return userDao.getUser(email);
-        }catch (UserNotFoundException e){
-            return null;
-        }
+        return userDao.getUserByEmail(email);
     }
 
     @Test

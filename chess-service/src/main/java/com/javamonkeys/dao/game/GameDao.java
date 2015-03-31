@@ -1,77 +1,67 @@
 package com.javamonkeys.dao.game;
 
-import com.javamonkeys.hibernate.HibernateUtil;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.javamonkeys.dao.user.User;
-import java.util.Date;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class GameDao implements IGameDao{
+public class GameDao implements IGameDao {
+
+    @Autowired
+    private SessionFactory hibernateSessionFactory;
+
+    private Session getSession() {
+        return hibernateSessionFactory.getCurrentSession();
+    }
+
+    private void save(Object entity) {
+        getSession().save(entity);
+    }
+
+    private void delete(Object entity) {
+        getSession().delete(entity);
+    }
+
     @Override
+    @Transactional
     public Game getGame(int id) {
 
-        HibernateUtil.begin();
-        Session session = HibernateUtil.getSession();
-        Query query = session.createQuery("from Game where id = :id");
+        Query query = getSession().createQuery("from Game where id = :id");
         query.setParameter("id", id);
-        Game currentGame = (Game)query.uniqueResult();
-        HibernateUtil.commit();
-        HibernateUtil.close();
+        Game currentGame = (Game) query.uniqueResult();
 
         return currentGame;
     }
 
     @Override
+    @Transactional
     public Game createGame(User author) {
 
-        try {
+        Game newGame = new Game(author);
+        getSession().save(newGame);
 
-            HibernateUtil.begin();
-            Session session = HibernateUtil.getSession();
-            Game newGame = new Game(author);
-            session.save(newGame);
-            HibernateUtil.commit();
-            HibernateUtil.close();
-
-            return newGame;
-
-        } catch (HibernateException e) {
-            HibernateUtil.rollback();
-            HibernateUtil.close();
-            throw e;
-        }
-
+        return newGame;
     }
 
     @Override
+    @Transactional
     public Game updateGame(Game game) {
 
-        try {
+        getSession().update(game);
 
-            HibernateUtil.begin();
-            Session session = HibernateUtil.getSession();
-            session.update(game);
-            HibernateUtil.commit();
-            HibernateUtil.close();
-
-            return game;
-
-        } catch (HibernateException e) {
-            HibernateUtil.rollback();
-            HibernateUtil.close();
-            throw e;
-        }
+        return game;
     }
 
     @Override
     public void saveTurn(int id, String turn) {
 
         Game currentGame = getGame(id);
-        String newMoveText = currentGame.getMoveText()+turn;
+        String newMoveText = currentGame.getMoveText() + turn;
         currentGame.setMoveText(newMoveText);
         updateGame(currentGame);
     }

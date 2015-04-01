@@ -20,13 +20,13 @@ public class GameDaoTest {
 
     @Inject
     IGameDao gameDao;
+    @Inject
+    IUserDao userDao;
 
     private String currentUserEmail = "sirosh@javamonkeys.com";
     private User currentUser;
 
     private User getUserForServiceUse(String email){
-
-        UserDao userDao = new UserDao();
 
         return userDao.getUserByEmail(email);
     }

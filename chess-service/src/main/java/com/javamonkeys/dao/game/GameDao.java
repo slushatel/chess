@@ -23,11 +23,14 @@ public class GameDao implements IGameDao {
         getSession().save(entity);
     }
 
+    private void update(Object entity) {
+        getSession().update(entity);
+    }
+
     private void delete(Object entity) {
         getSession().delete(entity);
     }
 
-    @Override
     @Transactional
     public Game getGame(int id) {
 
@@ -38,26 +41,24 @@ public class GameDao implements IGameDao {
         return currentGame;
     }
 
-    @Override
     @Transactional
     public Game createGame(User author) {
 
         Game newGame = new Game(author);
-        getSession().save(newGame);
+        save(newGame);
 
         return newGame;
     }
 
-    @Override
     @Transactional
     public Game updateGame(Game game) {
 
-        getSession().update(game);
+        update(game);
 
         return game;
     }
 
-    @Override
+    @Transactional
     public void saveTurn(int id, String turn) {
 
         Game currentGame = getGame(id);

@@ -27,6 +27,7 @@
         <property name="packagesToScan">
             <list>
                 <value>com.javamonkeys.dao.user</value>
+                <value>com.javamonkeys.dao.game</value>
             </list>
         </property>
         <property name="hibernateProperties">

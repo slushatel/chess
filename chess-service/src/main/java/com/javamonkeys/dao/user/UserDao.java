@@ -38,6 +38,10 @@ public class UserDao implements IUserDao {
         getSession().merge(entity);
     }
 
+    private void persist(Object entity) {
+        getSession().persist(entity);
+    }
+
     /**
      * Find user by email.
      *
@@ -165,6 +169,26 @@ public class UserDao implements IUserDao {
     }
 
     /**
+     * Update user data
+     *
+     * @param user user which need to update
+     * @throws UserNotFoundException if this user doesn't exist in DataBase
+     *         IllegalArgumentException if incorrect arguments passed
+     */
+    @Transactional
+    public void updateUser(User user) throws UserNotFoundException, IllegalArgumentException {
+
+        if (user == null)
+            throw new IllegalArgumentException("argument \"user\": value " + user + " is not valid");
+
+        User currentUser = getUserByEmail(user.getEmail());
+        if (currentUser == null)
+            throw new UserNotFoundException("User " + user + " not found");
+
+        persist(currentUser);
+    }
+
+    /**
      * Find user access group by name.
      *
      * @param name name of group
@@ -249,7 +273,7 @@ public class UserDao implements IUserDao {
 
         String newToken = generateNewUniqueToken();
         currentUser.setToken(newToken);
-        merge(currentUser);
+        persist(currentUser);
 
         return newToken;
     }
@@ -271,7 +295,7 @@ public class UserDao implements IUserDao {
             throw new UserNotFoundException("User with email: " + user.getEmail() + "was not found");
 
         currentUser.setToken(null);
-        merge(currentUser);
+        persist(currentUser);
     }
 
     /**

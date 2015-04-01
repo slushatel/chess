@@ -258,7 +258,7 @@ public class UserDaoTest {
     @Test
     public void testDeleteUser(){
 
-        String email = "filippov@javamonkeys.com";
+        String email = "DeleteUser@javamonkeys.com";
 
         try {
             User user = userDao.getUserByEmail(email);
@@ -267,7 +267,7 @@ public class UserDaoTest {
             User currentUser = userDao.getUserByEmail(email);
             assertNull(currentUser);
         } catch (UserNotFoundException e) {
-            fail(String.format("User with email %s was not found", "filippov@javamonkeys.com"));
+            fail(String.format("User with email %s was not found", email));
         }
     }
 
@@ -285,6 +285,67 @@ public class UserDaoTest {
     @Test(expected = IllegalArgumentException.class)
     public void testDeleteUserTestForNullArguments() throws UserNotFoundException {
         userDao.deleteUser(null);
+    }
+
+    /** Update user data
+     * User already exists in DB
+     * User should be updated or expected UserNotFoundException exception*/
+    @Test
+    public void testUpdateUser(){
+
+        String email = "UpdateUser@javamonkeys.com";
+
+        try {
+            User user = userDao.getUserByEmail(email);
+
+            //String newEmail = "UpdateUser2@javamonkeys.com";
+            String newPassword = "111";
+            Date newBirthDate = new Date();
+            String newToken = "new token";
+            UserAccessGroup newGroup = userDao.getUserAccessGroup("user");
+
+            //assertNotEquals(newEmail, user.getEmail());
+            assertNotEquals(newPassword, user.getPassword());
+            assertNotEquals(newBirthDate, user.getBirthDate());
+            assertNotEquals(newToken, user.getToken());
+            assertNotEquals(newGroup, user.getUserAccessGroup());
+
+            //user.setEmail(newEmail);
+            user.setPassword(newPassword);
+            user.setBirthDate(newBirthDate);
+            user.setToken(newToken);
+            user.setUserAccessGroup(newGroup);
+
+            userDao.updateUser(user);
+
+            User currentUser = userDao.getUserByEmail(email);
+            assertNotNull(currentUser);
+
+            //assertEquals(newEmail, user.getEmail());
+            assertEquals(newPassword, user.getPassword());
+            assertEquals(newBirthDate, user.getBirthDate());
+            assertEquals(newToken, user.getToken());
+            assertEquals(newGroup, user.getUserAccessGroup());
+
+        } catch (UserNotFoundException e) {
+            fail(String.format("User with email %s was not found", email));
+        }
+    }
+
+    /** Update user
+     * User doesn't exist in DB.
+     * Expected UserNotFoundException exception */
+    @Test(expected = UserNotFoundException.class)
+    public void testUpdateUserException() throws UserNotFoundException {
+        userDao.updateUser(new User("", ""));
+    }
+
+    /** Update user
+     * Null arguments passed
+     * Expected IllegalArgumentException exception */
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateUserTestForNullArguments() throws UserNotFoundException {
+        userDao.updateUser(null);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////

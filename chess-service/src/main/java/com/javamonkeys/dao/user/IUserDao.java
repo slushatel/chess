@@ -14,6 +14,8 @@ public interface IUserDao {
 
     public void deleteUser(User user) throws UserNotFoundException;
 
+    public void updateUser(User user) throws UserNotFoundException;
+
     public UserAccessGroup getUserAccessGroup(String name);
 
     public UserAccessGroup createUserAccessGroup(String name, boolean isAdmin) throws UserAccessGroupAlreadyExistException;

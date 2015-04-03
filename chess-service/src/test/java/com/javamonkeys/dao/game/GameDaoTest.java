@@ -53,7 +53,11 @@ public class GameDaoTest {
         Game game = gameDao.getGame(2);
         String str = game.getMoveText();
 
-        gameDao.saveTurn(2, "2.d3 d6");
+        try {
+            gameDao.saveTurn(2, "2.d3 d6");
+        } catch (GameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         game = gameDao.getGame(2);
 

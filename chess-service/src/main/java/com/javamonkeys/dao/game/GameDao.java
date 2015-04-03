@@ -51,17 +51,44 @@ public class GameDao implements IGameDao {
     }
 
     @Transactional
-    public Game updateGame(Game game) {
+    public Game updateGame(Game game)  throws GameNotFoundException{
 
+        Game currentGame = getGame(game.getId());
+        if (currentGame == null)
+            throw new GameNotFoundException("Game " + game + " not found");
         update(game);
 
         return game;
     }
 
     @Transactional
-    public void saveTurn(int id, String turn) {
+    public void deleteGame(Game game)  throws GameNotFoundException{
+
+        Game currentGame = getGame(game.getId());
+        if (currentGame == null)
+            throw new GameNotFoundException("Game " + game + " not found");
+        delete(game);
+
+    }
+
+    @Transactional
+    public void deleteGame(int id)  throws GameNotFoundException{
 
         Game currentGame = getGame(id);
+        if (currentGame == null)
+            throw new GameNotFoundException("Game id=" + id + " not found");
+        delete(currentGame);
+
+    }
+
+    @Transactional
+    public void saveTurn(int id, String turn)  throws GameNotFoundException{
+
+        Game currentGame = getGame(id);
+
+        if (currentGame == null)
+            throw new GameNotFoundException("Game id=" + id + " not found");
+
         String newMoveText = currentGame.getMoveText() + turn;
         currentGame.setMoveText(newMoveText);
         updateGame(currentGame);

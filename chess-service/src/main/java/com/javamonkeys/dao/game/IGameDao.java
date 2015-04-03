@@ -10,8 +10,12 @@ public interface IGameDao {
 
     public Game createGame(User author);
 
-    public Game updateGame(Game currentGame);
+    public Game updateGame(Game game) throws GameNotFoundException;
 
-    public void saveTurn(int id, String turn);
+    public void deleteGame(Game game) throws GameNotFoundException;
+
+    public void deleteGame(int id) throws GameNotFoundException;
+
+    public void saveTurn(int id, String turn) throws GameNotFoundException;
 
 }

@@ -17,6 +17,13 @@
         <spring-version>4.1.5.RELEASE</spring-version>
     </properties>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.3.RELEASE</version>
+    </parent>
+
+
     <dependencies>
 
         <dependency>
@@ -44,6 +51,16 @@
             <scope>test</scope>
         </dependency>
 
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-web</artifactId>-->
+            <!--&lt;!&ndash;<version>${spring-version}</version>&ndash;&gt;-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -52,4 +69,8 @@
         </dependency>
 
     </dependencies>
+
+
+
+
 </project>

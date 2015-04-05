@@ -5,13 +5,7 @@
 <hibernate-configuration>
 
     <session-factory>
-        <property name="connection.url">jdbc:h2:mem:dataSource</property>
-        <property name="connection.driver_class">org.h2.Driver</property>
-        <property name="hibernate.connection.username">sa</property>
-        <property name="hibernate.connection.password"/>
-        <mapping class="com.javamonkeys.dao.user.User"/>
-        <mapping class="com.javamonkeys.dao.user.UserAccessGroup"/>
-        <mapping class="com.javamonkeys.dao.game.Game"/>
+        <mapping package="com.javamonkeys.dao"/>
     </session-factory>
 
 </hibernate-configuration>

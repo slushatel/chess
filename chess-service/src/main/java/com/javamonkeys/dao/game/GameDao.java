@@ -23,11 +23,14 @@ public class GameDao implements IGameDao {
         getSession().save(entity);
     }
 
+    private void update(Object entity) {
+        getSession().update(entity);
+    }
+
     private void delete(Object entity) {
         getSession().delete(entity);
     }
 
-    @Override
     @Transactional
     public Game getGame(int id) {
 
@@ -38,29 +41,54 @@ public class GameDao implements IGameDao {
         return currentGame;
     }
 
-    @Override
     @Transactional
     public Game createGame(User author) {
 
         Game newGame = new Game(author);
-        getSession().save(newGame);
+        save(newGame);
 
         return newGame;
     }
 
-    @Override
     @Transactional
-    public Game updateGame(Game game) {
+    public Game updateGame(Game game)  throws GameNotFoundException{
 
-        getSession().update(game);
+        Game currentGame = getGame(game.getId());
+        if (currentGame == null)
+            throw new GameNotFoundException("Game " + game + " not found");
+        update(game);
 
         return game;
     }
 
-    @Override
-    public void saveTurn(int id, String turn) {
+    @Transactional
+    public void deleteGame(Game game)  throws GameNotFoundException{
+
+        Game currentGame = getGame(game.getId());
+        if (currentGame == null)
+            throw new GameNotFoundException("Game " + game + " not found");
+        delete(game);
+
+    }
+
+    @Transactional
+    public void deleteGame(int id)  throws GameNotFoundException{
 
         Game currentGame = getGame(id);
+        if (currentGame == null)
+            throw new GameNotFoundException("Game id=" + id + " not found");
+        delete(currentGame);
+
+    }
+
+    @Transactional
+    public void saveTurn(int id, String turn)  throws GameNotFoundException{
+
+        Game currentGame = getGame(id);
+
+        if (currentGame == null)
+            throw new GameNotFoundException("Game id=" + id + " not found");
+
         String newMoveText = currentGame.getMoveText() + turn;
         currentGame.setMoveText(newMoveText);
         updateGame(currentGame);

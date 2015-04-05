@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset="utf-8">
+   <title>User Profile page</title>  
+   <style>
+   table {
+    border: 1px solid #333; /* Рамка вокруг таблицы */ 
+    border-collapse: separate; /* Способ отображения границы */ 
+    width: 100%; /* Ширина таблицы */ 
+    border-spacing: 1px 1px; /* Расстояние между ячейками */ 
+   }
+   td {
+    padding: 10px; /* Поля вокруг текста */ 
+    border: 1px solid #a52a2a; /* Граница вокруг ячеек */ 
+   }
+  </style>    
+ </head>
+<body  text="maroon" background="backgr11.jpg "  bgproperties="fixed"  rightmargin="50" leftmargin="50"  topmargin="100" > 
+    <h1> JavaMonkeys</h1>
+     <h2>User Profile </h2>
+     <table >
+     <tbody>
+     <tr>
+         <td> 
+         <p><button type="button" name="newgame" value ="">New game </button></p> 
+         <p> <button type="button" name="joingame" value ="">Join game </button></p>                                   
+         <p> <button type="button" name="exitgame" value ="">Exit game </button></p> 
+         </td>    
+         
+         <td>
+         <h2>Username</h2> 
+         <p> Birth Date: <input name ="dateOfBirth" type="date" value="">   </p> 
+         <p>Male/Female: <br > <input name ="state" type="radio"> Male <input name ="state" type="radio"> Female</p> 
+         <p>Active e-mail <input name ="validUserMail" type="email" value="" placeholder="User@email.com"></p>
+         </td>
+     </tr>
+    </tbody>
+    </table>
+     
+                 
+  </body>
+</html>

@@ -35,7 +35,7 @@ public class Game {
     @Column(name = "moveText")
     private String moveText;
 
-    protected Game(){}
+    public Game(){}
 
     public Game(User author) {
         setMatchDate(new Date());

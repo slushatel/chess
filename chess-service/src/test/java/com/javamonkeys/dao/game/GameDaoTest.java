@@ -3,6 +3,7 @@ package com.javamonkeys.dao.game;
 import com.javamonkeys.dao.user.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -48,6 +49,7 @@ public class GameDaoTest {
     }
 
     @Test
+    @Ignore
     public void testSaveTurn(){
 
         Game game = gameDao.getGame(2);

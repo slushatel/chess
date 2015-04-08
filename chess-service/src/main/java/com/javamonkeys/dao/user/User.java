@@ -30,7 +30,7 @@ public class User {
 
     protected User(){}
 
-    User(String email, String password){
+    public User(String email, String password){
         setEmail(email);
         setPassword(password);
     }

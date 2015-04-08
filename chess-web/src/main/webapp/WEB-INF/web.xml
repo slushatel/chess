@@ -4,16 +4,11 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>
-            classpath*:web-context.xml
-        </param-value>
+        <param-value>/WEB-INF/web-context.xml</param-value>
     </context-param>
 
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
     <servlet>
-        <servlet-name>dispatcher</servlet-name>
+        <servlet-name>rest</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -23,9 +18,11 @@
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/chess/*</url-pattern>
+        <servlet-name>rest</servlet-name>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
 
-
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 </web-app>

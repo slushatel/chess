@@ -308,7 +308,8 @@ public class UserDaoTest {
             assertNotEquals(newPassword, user.getPassword());
             assertNotEquals(newBirthDate, user.getBirthDate());
             assertNotEquals(newToken, user.getToken());
-            assertNotEquals(newGroup, user.getUserAccessGroup());
+            assertNotEquals(newGroup.getId(), user.getUserAccessGroup().getId());
+            assertNotEquals(newGroup.getName(), user.getUserAccessGroup().getName());
 
             //user.setEmail(newEmail);
             user.setPassword(newPassword);
@@ -325,7 +326,8 @@ public class UserDaoTest {
             assertEquals(newPassword, user.getPassword());
             assertEquals(newBirthDate, user.getBirthDate());
             assertEquals(newToken, user.getToken());
-            assertEquals(newGroup, user.getUserAccessGroup());
+            assertEquals(newGroup.getId(), user.getUserAccessGroup().getId());
+            assertEquals(newGroup.getName(), user.getUserAccessGroup().getName());
 
         } catch (UserNotFoundException e) {
             fail(String.format("User with email %s was not found", email));

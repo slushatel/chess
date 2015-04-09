@@ -12,8 +12,8 @@ import java.util.Date;
 @RequestMapping("/user")
 public class UserService implements IUserService {
 
-//    @Inject
-//    IUserDao userDao;
+    @Inject
+    IUserDao userDao;
 
     @Transactional
     @RequestMapping(value = "/register", method = RequestMethod.GET)

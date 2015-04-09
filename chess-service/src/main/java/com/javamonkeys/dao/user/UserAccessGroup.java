@@ -19,7 +19,7 @@ public class UserAccessGroup {
 
     protected UserAccessGroup(){}
 
-    UserAccessGroup(String name, boolean isAdmin){
+    public UserAccessGroup(String name, boolean isAdmin){
         setName(name);
         setIsAdmin(isAdmin);
     }

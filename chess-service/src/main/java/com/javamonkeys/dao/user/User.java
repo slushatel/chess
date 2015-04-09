@@ -35,19 +35,19 @@ public class User {
         setPassword(password);
     }
 
-    User(String email, String password, Date birthDate){
+    public User(String email, String password, Date birthDate){
         setEmail(email);
         setPassword(password);
         setBirthDate(birthDate);
     }
 
-    User(String email, String password, UserAccessGroup userAccessGroup){
+    public User(String email, String password, UserAccessGroup userAccessGroup){
         setEmail(email);
         setPassword(password);
         setUserAccessGroup(userAccessGroup);
     }
 
-    User(String email, String password, Date birthDate, UserAccessGroup userAccessGroup){
+    public User(String email, String password, Date birthDate, UserAccessGroup userAccessGroup){
         setEmail(email);
         setPassword(password);
         setBirthDate(birthDate);

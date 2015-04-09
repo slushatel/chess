@@ -1,20 +1,22 @@
 package com.javamonkeys.api;
 
 import com.javamonkeys.dao.game.Game;
+import com.javamonkeys.dao.user.User;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by ose on 4/3/15.
  */
 @RestController
-@RequestMapping("/chess/game")
-public class GameService{
+@RequestMapping("/game")
+public class GameService {
 
-    @RequestMapping("/{id}")
-    public Game getGame(@RequestParam("id") String gameId) {
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Game getGame() {
 
-        return new Game();
+        return new Game(new User("email","no password"));
     }
 }

@@ -11,14 +11,10 @@
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:file:D:/GoogleDrive/java/Projects/chess/.idea/database_local/ChessDB"/>
+        <property name="url" value="jdbc:h2:file:/home/alex/dev/h2/chess"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>
     </bean>
-
-    <jdbc:initialize-database data-source="dataSource">
-        <jdbc:script location="classpath*:sql/localDB_schema.sql"/>
-    </jdbc:initialize-database>
 
     <!-- Hibernate 4 SessionFactory Bean definition -->
     <bean id="hibernateSessionFactory"
@@ -44,7 +40,5 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <bean id="userDao" class="com.javamonkeys.dao.user.UserDao"/>
 
 </beans>

@@ -302,7 +302,7 @@ public class UserDaoTest {
             String newPassword = "111";
             Date newBirthDate = new Date();
             String newToken = "new token";
-            UserAccessGroup newGroup = userDao.getUserAccessGroup("user");
+            UserAccessGroup newGroup = userDao.getUserAccessGroup("admin");
 
             //assertNotEquals(newEmail, user.getEmail());
             assertNotEquals(newPassword, user.getPassword());

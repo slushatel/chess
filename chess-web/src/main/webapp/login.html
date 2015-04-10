@@ -1,106 +1,111 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-  <meta http-equiv="Content-Type" content="text/html; charset="utf-8">
-   <title>Login page</title>  
-   <style type="text/css"> 
-   h1 {
-    font-family: Calibri, sans-serif; 
-   }
-    
-   h2 {
-   text-align: center;
-   font-family: Calibri, sans-serif; 
-     /* font-family: Geneva, Arial, Helvetica, sans-serif;*/    
-   } 
-   
-   p {
-   font-family: Calibri, sans-serif; 
-    /*font-family: Georgia, 'Times New Roman', Times, serif;*/
-   }
-   
-     .str0 {
-     height: 2%; /* высота  колонки */
-     background: rgba(213, 213, 230, 0.5);
-    }
-    
-    .str1 {
-    height: 80%; /* высота  колонки */
-    /*background: #fc5; /* Цвет фона  колонки */
-    text-align: left; /* Выравнивание по центр */         
-    background: rgba(225, 225, 225, 0.5); /* Прозрачность фона и цвет, */         
-   }
-   
-    .str2 {
-    height: 18%; /* высота  колонки */
-    /*background: #fc5 url (); /* Цвет фона  колонки */
-    text-align: right; /* Выравнивание по правому краю */          
-    background: rgba(225, 225, 225, 0.5); /* Прозрачность фона */
-    font-weight: bold; /* Жирное начертание текста */
-    /*color: white;   /*цвет текста  */          
-   }
-   
-   table {
-    font-family: Calibri, sans-serif; 
-    border: 1px solid #333; /* Рамка вокруг таблицы */ 
-    border-collapse: collapse; /* Способ отображения границы, separate - отдельніе границі */ 
-    width: 800px; /* ; Ширина таблицы */ 
-    height: 500px;
-    border-spacing: 1px 1px; /* Расстояние между ячейками */ 
-   }  
-            
-   td, th {
-    padding: 10px; /* Поля вокруг текста */ 
-    border: 1px solid #a52a2a; /* Граница вокруг ячеек */ 
-    vertical-align: top; /* Выравнивание по верхнему краю ячеек */
-    color: black;
-   }       
-               
-  </style>      
- </head>
-    
-<body  text="maroon"  background="backgr11.jpg "  rightmargin="100" leftmargin="50"  topmargin="20">  
-    <h1> JavaMonkeys</h1>        
-    <table align="center"> 
-    <th class="str0"> <h2>User Login:enter your login (e-mail)) <br> & password for login:    </h2> </th>    
-    
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+    <title>Login page</title>
+    <style type="text/css">
+        h1 {
+        font-family: Calibri, sans-serif;
+        }
+
+        h2 {
+        text-align: center;
+        font-family: Calibri, sans-serif;
+        /* font-family: Geneva, Arial, Helvetica, sans-serif;*/
+        }
+
+        p {
+        font-family: Calibri, sans-serif;
+        /*font-family: Georgia, 'Times New Roman', Times, serif;*/
+        }
+
+        .str0 {
+        height: 2%;
+        background: rgba(213, 213, 230, 0.5);
+        }
+
+        .str1 {
+        height: 80%;
+        /*background: #fc5;
+        text-align: left;
+        background: rgba(225, 225, 225, 0.5);
+        }
+
+        .str2 {
+        height: 18%;
+        /*background: #fc5 url ();
+        text-align: right;
+        background: rgba(225, 225, 225, 0.5);
+        font-weight: bold;
+        /*color: white;
+        }
+
+        table {
+        font-family: Calibri, sans-serif;
+        border: 1px solid #333;
+        border-collapse: collapse;
+        width: 800px;
+        height: 500px;
+        border-spacing: 1px 1px;
+        }
+
+        td, th {
+        padding: 10px;
+        border: 1px solid #a52a2a;
+        vertical-align: top;
+        color: black;
+        }
+
+    </style>
+</head>
+
+<body text="maroon" background="backgr11.jpg " rightmargin="100" leftmargin="50" topmargin="20">
+<h1> JavaMonkeys</h1>
+<table align="center">
+    <th class="str0"><h2>User Login:enter your login (e-mail)) <br> & password for login: </h2></th>
+
     <tr>
-    <td class="str1">
-    <form name ="userlogin" method = "pas" action = "UserProfile.html" > 
-    <ul> 				
-      <li>
-          <label   for="usermail">Your E-mail</label>
-          <input  type="EMAIL" name="usermail" size="25"  title=" Enter your email/login " placeholder="yourmail@example.com" required> 
-      </li>
-      
-			<li> 
-          <label for="userpassword">Your Password</label>
-          <input  type="password" name="userpassword" size="25"  title=" Enter your password " placeholder="password" required>
-      </li>
-       
-      <li>  				
-        <a href= "UserProfile.html" target="_blank">     <button  type="submit" name="ref-userprofile" value="login" > Login </button>
-        </a> 
-      </li> 
-      
-    </ul> 
-    </form> 
-    </td>
-    </tr>       
-    
-    <tr>  
-    <td class="str2">    
-      <h2> For new users:</h2>
-      <p> If You don't have a login and password, please make it  </p> 
-      <p>   
-       <a href="registration.html" target="_blank">
-       <button   type="button" name="ref-login" value="userregistr" > Registration </button>  
-          </a>
-        </p>
-  </td>
-  </tr>                  
-  </table>                   
-  
-  </section>
- </body>
+        <td class="str1">
+            <form name="userlogin" method="pas" action="UserProfile.html">
+                <ul>
+                    <li>
+                        <label for="usermail">Your E-mail</label>
+                        <input type="EMAIL" name="usermail" size="25" title=" Enter your email/login "
+                               placeholder="yourmail@example.com" required>
+                    </li>
+
+                    <li>
+                        <label for="userpassword">Your Password</label>
+                        <input type="password" name="userpassword" size="25" title=" Enter your password "
+                               placeholder="password" required>
+                    </li>
+
+                    <li>
+                        <a href="UserProfile.html" target="_blank">
+                            <button type="submit" name="ref-userprofile" value="login"> Login</button>
+                        </a>
+                    </li>
+
+                </ul>
+            </form>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="str2">
+            <h2> For new users:</h2>
+
+            <p> If You don't have a login and password, please make it </p>
+
+            <p>
+                <a href="registration.html" target="_blank">
+                    <button type="button" name="ref-login" value="userregistr"> Registration</button>
+                </a>
+            </p>
+        </td>
+    </tr>
+</table>
+
+</section>
+</body>
 </html>

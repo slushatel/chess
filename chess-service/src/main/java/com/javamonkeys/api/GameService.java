@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class GameService {
 
 //    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "/game1", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/get-game", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Game getGame() {
         return new Game(new User("email","no password"));
     }

@@ -4,13 +4,13 @@ import java.util.Date;
 
 public interface IUserDao {
 
-    public User getUserByEmail(String eMail);
+    public User getUserByEmail(String email);
 
     public User getUserByToken(String token);
 
-    public User createUser(String eMail, String password,  UserAccessGroup userAccessGroup) throws UserAlreadyExistException;
+    public User createUser(String email, String password,  UserAccessGroup userAccessGroup) throws UserAlreadyExistException;
 
-    public User createUser(String eMail, String password, UserAccessGroup userAccessGroup, Date birthDate) throws UserAlreadyExistException;
+    public User createUser(String email, String password, UserAccessGroup userAccessGroup, Date birthDate) throws UserAlreadyExistException;
 
     public void deleteUser(User user) throws UserNotFoundException;
 

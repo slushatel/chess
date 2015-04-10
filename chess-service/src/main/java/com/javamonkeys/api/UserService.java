@@ -12,23 +12,23 @@ import java.util.Date;
 @RequestMapping("/user")
 public class UserService implements IUserService {
 
-//    @Inject
-//    IUserDao userDao;
+    @Inject
+    IUserDao userDao;
 
-    @Transactional
+    //@Transactional
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public void register(@RequestParam("email") String email, @RequestParam("password") String password) {
        // TODO
     }
 
-    @Transactional
+   // @Transactional
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(@RequestParam("email") String email, @RequestParam("password") String password) {
         // TODO
         return  "" + email + " - " + password;
     }
 
-    @Transactional
+    //@Transactional
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     //@ResponseStatus(value = HttpStatus.OK)
     public void logout(User user) {
@@ -36,53 +36,53 @@ public class UserService implements IUserService {
     }
 
     @RequestMapping(value = "/getUserByEmail/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Transactional
+    //@Transactional
     public User getUserByEmail(@PathVariable String email) {
         // TODO
         return null; // userDao.getUserByEmail(email);
     }
 
-    @Transactional
+    //@Transactional
     public User getUserByToken(String token) {
         // TODO
         return null; //userDao.getUserByToken(token);
     }
 
-    @Transactional
+    //@Transactional
     public User createUser(String eMail, String password, UserAccessGroup userAccessGroup) {
         // TODO
         return null;
     }
 
-    @Transactional
+    //@Transactional
     public User createUser(String eMail, String password, UserAccessGroup userAccessGroup, Date birthDate) {
         // TODO
         return null;
     }
 
-    @Transactional
+    //@Transactional
     public void deleteUser(User user) {
         // TODO
     }
 
-    @Transactional
+    //@Transactional
     public void updateUser(User user) {
         // TODO
     }
 
-    @Transactional
+    //@Transactional
     public UserAccessGroup getUserAccessGroup(String name) {
         // TODO
         return null;
     }
 
-    @Transactional
+    //@Transactional
     public UserAccessGroup createUserAccessGroup(String name, boolean isAdmin) {
         // TODO
         return null;
     }
 
-    @Transactional
+   // @Transactional
     public void deleteUserAccessGroup(UserAccessGroup userAccessGroup) {
         // TODO
     }

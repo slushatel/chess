@@ -22,9 +22,9 @@ public interface IUserDao {
 
     public void deleteUserAccessGroup(UserAccessGroup userAccessGroup) throws UserAccessGroupNotFoundException;
 
-    public String login(String email, String password) throws IncorrectUserCredentials;
+    public String login(String email, String password) throws IncorrectUserCredentialsException;
 
-    public void logout(User user) throws UserNotFoundException;
+    public void logout(String token) throws UserNotFoundException;
 
     public void register(String email, String password) throws UserAlreadyExistException;
 

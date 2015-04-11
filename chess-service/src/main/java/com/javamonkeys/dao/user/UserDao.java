@@ -5,7 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.UUID;
@@ -249,17 +248,17 @@ public class UserDao implements IUserDao {
      * Login operation
      * @param email user email
      * @param password user password
-     * @throws IncorrectUserCredentials if passed incorrect email or password data
+     * @throws IncorrectUserCredentialsException if passed incorrect email or password data
      */
-    public String login(String email, String password) throws IncorrectUserCredentials {
+    public String login(String email, String password) throws IncorrectUserCredentialsException {
 
         if (email == null || password == null)
-            throw new IncorrectUserCredentials();
+            throw new IncorrectUserCredentialsException();
 
         User currentUser = getUserByEmail(email);
 
         if(currentUser==null || !currentUser.getPassword().equals(password))
-            throw new IncorrectUserCredentials();
+            throw new IncorrectUserCredentialsException();
 
         String newToken = generateNewUniqueToken();
         currentUser.setToken(newToken);
@@ -270,18 +269,18 @@ public class UserDao implements IUserDao {
 
     /**
      * Logout operation
-     * @param user current user
+     * @param token current user token
      * @throws UserNotFoundException if user doesn't exist in DataBase
      */
-    public void logout(User user) throws UserNotFoundException {
+    public void logout(String token) throws UserNotFoundException {
 
-        if (user == null)
-            throw new UserNotFoundException("User: " + user + "was not found");
+        if (token == null)
+            throw new UserNotFoundException("User with token" + token + "was not found");
 
-        User currentUser = getUserByEmail(user.getEmail());
+        User currentUser = getUserByToken(token);
 
         if (currentUser == null)
-            throw new UserNotFoundException("User with email: " + user.getEmail() + "was not found");
+            throw new UserNotFoundException("User with token" + token + "was not found");
 
         currentUser.setToken(null);
         persist(currentUser);

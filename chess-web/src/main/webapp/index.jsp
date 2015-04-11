@@ -11,7 +11,7 @@
         This is a header.
     </header>
 
-    <div>Game goes here</div>
+    <div>Game goes here. Play with us</div>
 
     <footer class="text-center">
         Java Monkeys

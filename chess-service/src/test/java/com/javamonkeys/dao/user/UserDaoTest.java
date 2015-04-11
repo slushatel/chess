@@ -6,6 +6,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:test-dao-config.xml"})
+@Transactional
 public class UserDaoTest {
 
     @Inject

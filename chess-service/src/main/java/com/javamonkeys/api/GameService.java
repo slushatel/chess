@@ -3,43 +3,45 @@ package com.javamonkeys.api;
 import com.javamonkeys.dao.game.Game;
 import com.javamonkeys.dao.game.GameDao;
 import com.javamonkeys.dao.game.GameNotFoundException;
+import com.javamonkeys.dao.game.IGameDao;
 import com.javamonkeys.dao.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * Created by ose on 4/3/15.
- */
+//import javax.inject.Inject;
+
+
+
 @RestController
 @RequestMapping("/game")
 public class GameService {
+//    @Autowired
+//    private IGameDao gameDao;
 
-//    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @RequestMapping(value = "/get-game", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Game getGame() {
+    @ResponseBody
+    @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public Game getGame() {
         return new Game(new User("email","no password"));
     }
 
-
-    @RequestMapping(value = "/save-turn", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody boolean saveTurn(@RequestParam(value = "id") int id, @RequestParam(value = "turn") String turn) {
+    @ResponseBody
+    @RequestMapping(value = "/turn", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public boolean saveTurn(@RequestBody TurnJson turn) {
         GameDao gameDao = new GameDao();
 
-       try {
-           gameDao.saveTurn(id, turn);
-       } catch (GameNotFoundException e){
-         return false;
-       }catch(Exception e){
-           return false;
-       }
+        try {
+            gameDao.saveTurn(turn.id, turn.move);
+        } catch (GameNotFoundException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
 
         return true;
     }
 
-    @RequestMapping(value = "/delete-game", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public @ResponseBody String deleteGame(@RequestParam(value = "id") int id) {
         GameDao gameDao = new GameDao();
 
@@ -53,6 +55,11 @@ public class GameService {
         return "the game with id " + id + " has been deleted";
     }
 
+}
+
+class TurnJson {
+    int id;
+    String move;
 }
 
 

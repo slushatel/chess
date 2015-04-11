@@ -8,7 +8,7 @@ import java.util.Date;
 
 public interface IUserService {
 
-    public void register(String email, String password) throws UserAlreadyExistException;
+    public void register(String email, String password);
 
     public String login(String email, String password);
 

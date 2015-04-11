@@ -1,43 +1,111 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
- <head>
-  <meta http-equiv="Content-Type" content="text/html; charset="utf-8">
-   <title>User Profile page</title>  
-   <style>
-   table {
-    border: 1px solid #333; /* Рамка вокруг таблицы */ 
-    border-collapse: separate; /* Способ отображения границы */ 
-    width: 100%; /* Ширина таблицы */ 
-    border-spacing: 1px 1px; /* Расстояние между ячейками */ 
-   }
-   td {
-    padding: 10px; /* Поля вокруг текста */ 
-    border: 1px solid #a52a2a; /* Граница вокруг ячеек */ 
-   }
-  </style>    
- </head>
-<body  text="maroon" background="backgr11.jpg "  bgproperties="fixed"  rightmargin="50" leftmargin="50"  topmargin="100" > 
-    <h1> JavaMonkeys</h1>
-     <h2>User Profile </h2>
-     <table >
-     <tbody>
-     <tr>
-         <td> 
-         <p><button type="button" name="newgame" value ="">New game </button></p> 
-         <p> <button type="button" name="joingame" value ="">Join game </button></p>                                   
-         <p> <button type="button" name="exitgame" value ="">Exit game </button></p> 
-         </td>    
-         
-         <td>
-         <h2>Username</h2> 
-         <p> Birth Date: <input name ="dateOfBirth" type="date" value="">   </p> 
-         <p>Male/Female: <br > <input name ="state" type="radio"> Male <input name ="state" type="radio"> Female</p> 
-         <p>Active e-mail <input name ="validUserMail" type="email" value="" placeholder="User@email.com"></p>
-         </td>
-     </tr>
-    </tbody>
-    </table>
-     
-                 
-  </body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html" ; charset="utf-8">
+    <title>User Profile page</title>
+    <style type="text/css">
+        h1 {
+        font-family: Calibri, sans-serif;
+        }
+
+        h2 {
+        text-align: center;
+        font-family: Calibri, sans-serif;
+        /* font-family: Geneva, Arial, Helvetica, sans-serif;*/
+        }
+
+        p {
+        font-family: Calibri, sans-serif;
+        /*font-family: Georgia, 'Times New Roman', Times, serif;*/
+        }
+
+        .col0 {
+        background: rgba(213, 213, 230, 0.5)
+        }
+
+        .col1{
+        width: 25%;
+        background: #fc5;
+        text-align: center;
+        background: rgba(225, 225, 225, 0.5);
+        }
+
+        .col2{
+        width: 75%;
+        background: #fc5 url ();
+        text-align: left;
+        background: rgba(225, 225, 225, 0.5);
+        font-weight: bold;
+        /*color: white;
+        }
+
+        table {
+        font-family: Calibri, sans-serif;
+        border: 1px solid #333;
+        border-collapse: collapse;
+        width: 800px;
+        border-spacing: 1px 1px;
+        }
+
+        td, th {
+        /*font-family: Georgia, 'Times New Roman', Times, serif; */
+        padding: 10px;
+        border: 1px solid #a52a2a;
+        vertical-align: top;
+        color: black;
+        }
+
+        .rightimg {
+        float: right;
+        margin: 0px 20px 100px 50px;
+        border-radius: 10px;
+        border: 3px solid maroon;
+        box-shadow: 0 0 7px #666;
+        width: 30%;
+        height: 30%;
+        }
+    </style>
+
+</head>
+<body text="maroon" background="backgr11.jpg " bgproperties="fixed" rightmargin="50" leftmargin="50" topmargin="20">
+<h1> JavaMonkeys</h1>
+
+<table align="center">
+    <th class="col0"><h2>User Profile </h2></th>
+    <tr>
+        <td class="col1">
+            <h3>Menu</h3>
+
+            <p>
+                <button type="button" name="newgame" value="">New game</button>
+            </p>
+            <p>
+                <button type="button" name="joingame" value="">Join game</button>
+            </p>
+            <p>
+                <button type="button" name="exitgame" value="">Exit game</button>
+            </p>
+        </td>
+
+        <td class="col2">
+            <h2>Username</h2>
+
+            <p><img src="images1.jpg" alt="UserPhoto" class="rightimg"></p>
+
+            <p>Birth Date: <input name="dateOfBirth" type="date" value=""></p>
+
+            <p>Male/Female: <input name="state" type="radio"> Male <input name="state" type="radio"> Female </p>
+
+            <p>Active e-mail <input name="validUserMail" type="email" value="" placeholder="User@email.com"></p>
+
+            <p align="right">
+                <button type="button" name="ok" value="">Confirm</button>
+            </p>
+        </td>
+
+    </tr>
+</table>
+
+
+</body>
 </html>

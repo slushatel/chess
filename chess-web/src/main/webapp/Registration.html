@@ -1,63 +1,12 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=" utf-8
+    ">
 
     <title>Registration page</title>
-    <style type="text/css">
-        h1 {
-        font-family: Calibri, sans-serif;
-        }
-
-        h2 {
-        text-align: center;
-        font-family: Calibri, sans-serif;
-        /* font-family: Geneva, Arial, Helvetica, sans-serif;*/
-        }
-
-        p {
-        font-family: Calibri, sans-serif;
-        /*font-family: Georgia, 'Times New Roman', Times, serif;*/
-        }
-
-        .str0 {
-        height: 2%;
-        background: rgba(213, 213, 230, 0.5);
-        }
-
-        .str1 {
-        height: 80%;
-        /*background: #fc5;
-        text-align: left;
-        background: rgba(225, 225, 225, 0.5);
-        }
-
-        .str2 {
-        height: 18%;
-        /*background: #fc5 url ();
-        text-align: right;
-        background: rgba(225, 225, 225, 0.5);
-        font-weight: bold;
-        /*color: white;
-        }
-
-        table {
-        font-family: Calibri, sans-serif;
-        border: 1px solid #333;
-        border-collapse: collapse;
-        width: 800px;
-        height: 500px;
-        border-spacing: 1px 1px;
-        }
-
-        td, th {
-        padding: 10px;
-        border: 1px solid #a52a2a;
-        vertical-align: top;
-        color: black;
-        }
-
-    </style>
-
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body text="maroon" background="backgr11.jpg " bgproperties="fixed" rightmargin="100" leftmargin="50" topmargin="20">
 
@@ -68,7 +17,6 @@
     <tr>
         <td class="str1">
             <form name="registration" method="get" action="UserProfile.html">
-
                 <ul>
                     <li>
                         <label for="username">Your Name</label>
@@ -95,15 +43,22 @@
 
     <tr>
         <td class="str2">
-            <h2> For existing users:</h2>
-
-            <p> If You already have a login and password, please make login
-
-            </p>
-
-            <p><a href="login.html" target="_blank">
+            <span>For existing users:</span>
+            <br> If You already have a login and password, please make login
+            <a href="login.html" target="_blank">
                 <button type="button" name="ref-login" value="login"> Login</button>
-            </p>
+
+            </a>
+        </td>
+    </tr>
+</table>
+
+<table class="col" align="center">
+    <tr>
+        <td class="col00">
+            <nav>
+                <a href="">About</a> | <a href="">Contacts</a> | <a href="">FeedBack</a>
+            </nav>
         </td>
     </tr>
 </table>

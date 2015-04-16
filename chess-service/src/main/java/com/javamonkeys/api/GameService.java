@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.*;
 //import javax.inject.Inject;
 
 
-
 @RestController
 @RequestMapping("/game")
 public class GameService {
@@ -56,16 +55,17 @@ public class GameService {
         return new Game(user);
     }
 
-
-    @RequestMapping(value = "/turn", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<resp<Game>> saveTurn(@RequestBody TurnJson1 turn) {
+    @ResponseBody
+    @RequestMapping(value = "/turn", method = RequestMethod.POST)
+    public ResponseEntity<resp<Game>> saveTurn(@RequestBody TurnJson turn) {
         GameDao gameDao = new GameDao();
 
         try {
             //gameDao.saveTurn(turn.gameId, turn.fen, turn.pgn);
-            Game game = gameDao.getGame(1);
-            resp<Game> resp1 = new resp<Game>(game, "");
-            return new ResponseEntity<resp<Game>>(resp1, HttpStatus.OK);
+            //Game game = gameDao.getGame(1);
+            resp<Game> resp1 = new resp<Game>(new Game(new User("email", "no password")), "error 123");
+            ResponseEntity<resp<Game>> r = new ResponseEntity<resp<Game>>(resp1, HttpStatus.OK);
+            return r;
 //        } catch (GameNotFoundException e) {
 //            return null;
         } catch (Exception e) {
@@ -74,59 +74,25 @@ public class GameService {
 
     }
 
-    class resp<T>{
+    public static class resp<T> {
         T value;
         String error;
-        resp(T value, String error){
+
+        resp(T value, String error) {
             this.value = value;
             this.error = error;
         }
     }
 
-    public class TurnJson1{
-        public TurnJson1() {
-        }
-
-        public TurnJson1(TurnJson1 newsEntity) {
-            this.id= newsEntity.getId();
-        }
-
-//        @JsonCreator
-//        public TurnJson1(@JsonProperty("id") String id) {
-//            this.id = id;
-//
-//        }
-
-
-        public String getId() {
-            return id;
-
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        String id;
-
-    }
-
-    public class TurnJson {
-
-        @JsonCreator
-        public TurnJson(@JsonProperty("gameId") String gameId, @JsonProperty("fen") String fen, @JsonProperty("pgn") String pgn) {
-            this.gameId = gameId;
-            this.fen = fen;
-            this.pgn = pgn;
-        }
-
-        public TurnJson() {
-
-        }
+    public static class TurnJson {
 
         private String gameId;
         private String fen;
         private String pgn;
+
+        public TurnJson() {
+
+        }
 
         public String getFen() {
             return fen;
@@ -154,21 +120,21 @@ public class GameService {
     }
 
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
-    public @ResponseBody String deleteGame(@PathVariable(value = "id") int id) {
+    public
+    @ResponseBody
+    String deleteGame(@PathVariable(value = "id") int id) {
         GameDao gameDao = new GameDao();
 
         try {
             gameDao.deleteGame(id);
-        } catch (GameNotFoundException e){
+        } catch (GameNotFoundException e) {
             return e.getMessage();
-        }catch(Exception e){
+        } catch (Exception e) {
             return "unknown exception founded";
         }
         return "the game with id " + id + " has been deleted";
     }
 
 }
-
-
 
 

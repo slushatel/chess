@@ -1,51 +1,65 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=" utf-8
-    ">
-
-    <title>Login</title>
+    <meta http-equiv="Content-Type" charset="utf-8">
+    <title>Login page</title>
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
-<body text="maroon" background="backgr11.jpg " rightmargin="100" leftmargin="150" topmargin="100">
+
+<body>
 <h1> JavaMonkeys</h1>
+<table align="center" class="tableHeight">
+    <tr>
+        <th class="str0"><h2>User Login:enter your login (e-mail))& password for login: </h2></th>
+    </tr>
 
-<form name="userlogin" method="pas" action="UserProfile.html">
+    <tr>
+        <td class="str1">
+            <form name="userlogin" method="pas" action="UserProfile.html">
+                <ul>
+                    <li>
+                        <label for="usermail">Your E-mail</label>
+                        <input type="EMAIL" name="usermail" size="25" title=" Enter your email/login "
+                               placeholder="yourmail@example.com" required>
+                    </li>
 
-    <h2>User Login:enter your login (e-mail)) & password for login: </h2>
-    <ul>
-        <li>
-            <label for="usermail">Your E-mail</label>
-            <input type="EMAIL" name="usermail" size="25" title=" Enter your email/login "
-                   placeholder="yourmail@example.com" required>
-        </li>
+                    <li>
+                        <label for="userpassword">Your Password</label>
+                        <input type="password" name="userpassword" size="25" title=" Enter your password "
+                               placeholder="password" required>
+                    </li>
 
-        <li>
-            <label for="userpassword">Your Password</label>
-            <input type="password" name="userpassword" size="25" title=" Enter your password " placeholder="password"
-                   required>
-        </li>
+                    <li>
+                        <a href="UserProfile.html" target="_blank">
+                            <button type="submit" name="ref-userprofile" value=""> Login</button>
+                        </a>
+                    </li>
 
-        <li>
-            <a href="UserProfile.html" target="_blank">
-                <button type="submit" name="ref-userprofile" value="login"> Login</button>
+                </ul>
+            </form>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="str2">
+            <span> For new users: </span>
+            <br>If You don't have a login and password, please make it!
+            <a href="registration.html" target="_blank">
+                <button type="button" name="ref-login" value="userregistr"> Registration</button>
             </a>
-        </li>
-
-    </ul>
-    <div><br>
-
-        <h2> For new users:</h2>
-    </div>
-    <p> If You don't have a login and password, please make it
-
-    </p>
-
-    <p>
-        <a href="registration.html" target="_blank">
-            <button type="button" name="ref-login" value="userregistr"> Registration</button>
-        </a>
-    </p>
-</form>
-</section>
+        </td>
+    </tr>
+</table>
+<table class="col" align="center">
+    <tr>
+        <td class="col00">
+            <nav>
+                <a href="">About</a> | <a href="">Contacts</a> | <a href="">FeedBack</a>
+            </nav>
+        </td>
+    </tr>
+</table>
 </body>
+
 </html>

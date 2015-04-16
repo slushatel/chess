@@ -12,8 +12,8 @@ import java.util.Date;
 @RequestMapping("/user")
 public class UserService implements IUserService {
 
-//    @Inject
-//    IUserDao userDao;
+    @Inject
+    IUserDao userDao;
 
     @Transactional
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -35,14 +35,13 @@ public class UserService implements IUserService {
         // TODO
     }
 
-    @RequestMapping(value = "/getUserByEmail/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getUserByEmail", produces = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
-    public User getUserByEmail(@PathVariable String email) {
-        // TODO
-        return null; // userDao.getUserByEmail(email);
+    public User getUserByEmail(@RequestParam("email") String email) {
+        return userDao.getUserByEmail(email);
     }
 
-    @Transactional
+    //@Transactional
     public User getUserByToken(String token) {
         // TODO
         return null; //userDao.getUserByToken(token);

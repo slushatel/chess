@@ -150,4 +150,12 @@ public class User {
         this.token = token;
     }
 
+    // TODO - refactor usages / delete method
+    public void loadValues(User sourceUser){
+        if (sourceUser != null) {
+            setBirthDate(sourceUser.getBirthDate());
+            setUserAccessGroup(sourceUser.getUserAccessGroup());
+            setPassword(sourceUser.getPassword());
+        }
+    }
 }

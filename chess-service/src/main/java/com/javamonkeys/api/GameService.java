@@ -6,6 +6,7 @@ import com.javamonkeys.dao.game.GameNotFoundException;
 import com.javamonkeys.dao.game.IGameDao;
 import com.javamonkeys.dao.user.User;
 import com.javamonkeys.dao.user.UserDao;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.*;
 //import javax.inject.Inject;
 
 
@@ -55,13 +57,13 @@ public class GameService {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/turn", method = RequestMethod.POST)
+    @RequestMapping(value = "/turn", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<resp<Game>> saveTurn(@RequestBody TurnJson turn) {
         GameDao gameDao = new GameDao();
 
         try {
             //gameDao.saveTurn(turn.gameId, turn.fen, turn.pgn);
-            Game game = gameDao.getGame(turn.gameId);
+            Game game = gameDao.getGame(1);
             resp<Game> resp1 = new resp<Game>(game, "");
             return new ResponseEntity<resp<Game>>(resp1, HttpStatus.OK);
 //        } catch (GameNotFoundException e) {
@@ -81,10 +83,46 @@ public class GameService {
         }
     }
 
-    class TurnJson {
-        int gameId;
-        String fen;
-        String pgn;
+    public class TurnJson {
+
+        @JsonCreator
+        public TurnJson(@JsonProperty("gameId") String gameId, @JsonProperty("fen") String fen, @JsonProperty("pgn") String pgn) {
+            this.gameId = gameId;
+            this.fen = fen;
+            this.pgn = pgn;
+        }
+
+        public TurnJson() {
+
+        }
+
+        private String gameId;
+        private String fen;
+        private String pgn;
+
+        public String getFen() {
+            return fen;
+        }
+
+        public void setFen(String fen) {
+            this.fen = fen;
+        }
+
+        public String getPgn() {
+            return pgn;
+        }
+
+        public void setPgn(String pgn) {
+            this.pgn = pgn;
+        }
+
+        public String getGameId() {
+            return gameId;
+        }
+
+        public void setGameId(String gameId) {
+            this.gameId = gameId;
+        }
     }
 
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)

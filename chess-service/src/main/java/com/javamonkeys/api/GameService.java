@@ -43,7 +43,7 @@ public class GameService {
 
     @ResponseBody
     @RequestMapping(value = "/{gameId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public Game getGame(@RequestParam(value = "gameId") int gameId) {
+    public Game getGame(@PathVariable(value = "gameId") int gameId) {
         GameDao gameDao = new GameDao();
         return gameDao.getGame(gameId);
     }
@@ -56,9 +56,9 @@ public class GameService {
         return new Game(user);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/turn", consumes = "application/json", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-    public ResponseEntity<resp<Game>> saveTurn(@RequestBody TurnJson turn) {
+
+    @RequestMapping(value = "/turn", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+    public @ResponseBody ResponseEntity<resp<Game>> saveTurn(@RequestBody TurnJson1 turn) {
         GameDao gameDao = new GameDao();
 
         try {
@@ -81,6 +81,34 @@ public class GameService {
             this.value = value;
             this.error = error;
         }
+    }
+
+    public class TurnJson1{
+        public TurnJson1() {
+        }
+
+        public TurnJson1(TurnJson1 newsEntity) {
+            this.id= newsEntity.getId();
+        }
+
+//        @JsonCreator
+//        public TurnJson1(@JsonProperty("id") String id) {
+//            this.id = id;
+//
+//        }
+
+
+        public String getId() {
+            return id;
+
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        String id;
+
     }
 
     public class TurnJson {
@@ -126,7 +154,7 @@ public class GameService {
     }
 
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
-    public @ResponseBody String deleteGame(@RequestParam(value = "id") int id) {
+    public @ResponseBody String deleteGame(@PathVariable(value = "id") int id) {
         GameDao gameDao = new GameDao();
 
         try {

@@ -42,6 +42,20 @@ public class UserDao implements IUserDao {
     }
 
     /**
+     * Find user by id.
+     *
+     * @param id user id
+     * @return user
+     */
+    public User getUserById(int id) {
+
+        Query query = getSession().createQuery("from User where id = :id");
+        query.setParameter("id", id);
+
+        return (User) query.uniqueResult();
+    }
+
+    /**
      * Find user by email.
      *
      * @param email user email
@@ -269,21 +283,16 @@ public class UserDao implements IUserDao {
 
     /**
      * Logout operation
-     * @param token current user token
+     * @param user current user
      * @throws UserNotFoundException if user doesn't exist in DataBase
      */
-    public void logout(String token) throws UserNotFoundException {
+    public void logout(User user) {
 
-        if (token == null)
-            throw new UserNotFoundException("User with token" + token + "was not found");
+        if (user == null)
+            return;
 
-        User currentUser = getUserByToken(token);
-
-        if (currentUser == null)
-            throw new UserNotFoundException("User with token" + token + "was not found");
-
-        currentUser.setToken(null);
-        persist(currentUser);
+        user.setToken(null);
+        persist(user);
     }
 
     /**

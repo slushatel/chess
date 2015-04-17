@@ -57,7 +57,7 @@ public class GameService {
 
     @ResponseBody
     @RequestMapping(value = "/turn", method = RequestMethod.POST)
-    public ResponseEntity<resp<Game>> saveTurn(@RequestBody TurnJson turn) {
+    public ResponseEntity<resp<Game>> saveTurn(@RequestBody Turn turn) {
         GameDao gameDao = new GameDao();
 
         try {
@@ -84,15 +84,13 @@ public class GameService {
         }
     }
 
-    public static class TurnJson {
+    public static class Turn {
 
         private String gameId;
         private String fen;
         private String pgn;
 
-        public TurnJson() {
-
-        }
+        public Turn() { }
 
         public String getFen() {
             return fen;

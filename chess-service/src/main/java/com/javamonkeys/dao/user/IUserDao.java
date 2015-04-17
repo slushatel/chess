@@ -4,6 +4,8 @@ import java.util.Date;
 
 public interface IUserDao {
 
+    public User getUserById(int id);
+
     public User getUserByEmail(String email);
 
     public User getUserByToken(String token);
@@ -22,9 +24,9 @@ public interface IUserDao {
 
     public void deleteUserAccessGroup(UserAccessGroup userAccessGroup) throws UserAccessGroupNotFoundException;
 
-    public String login(String email, String password) throws IncorrectUserCredentials;
+    public String login(String email, String password) throws IncorrectUserCredentialsException;
 
-    public void logout(User user) throws UserNotFoundException;
+    public void logout(User user);
 
     public void register(String email, String password) throws UserAlreadyExistException;
 

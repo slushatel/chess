@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.*;
-//import javax.inject.Inject;
+import javax.inject.Inject;
 
 
 @RestController
@@ -30,6 +30,9 @@ public class GameService {
 //    public Game getGameExample() {
 //        return new Game(new User("email", "no password"));
 //    }
+
+//    @Inject
+//    RequestInfo requestInfo;
 
     @ResponseBody
     @RequestMapping(value = "/user-games/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)

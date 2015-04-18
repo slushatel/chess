@@ -26,7 +26,7 @@ import javax.inject.Inject;
 
 @RestController
 @RequestMapping("/game")
-public class GameService {
+public class GameService implements IGameService {
 
     @Inject
     private GameDao gameDao;

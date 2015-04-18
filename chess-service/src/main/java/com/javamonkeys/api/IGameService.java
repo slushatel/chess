@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Created by stas on 19.04.2015.
- */
 public interface IGameService {
     @Transactional
     @ResponseBody

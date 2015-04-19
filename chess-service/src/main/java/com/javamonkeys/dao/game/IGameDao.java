@@ -2,6 +2,7 @@ package com.javamonkeys.dao.game;
 
 import com.javamonkeys.dao.user.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface IGameDao {
@@ -18,4 +19,7 @@ public interface IGameDao {
 
     public void saveTurn(int id, String turn) throws GameNotFoundException;
 
+    public ArrayList<Game> getListGames(User author);
+
+    public ArrayList<Game> getListGames(String status);
 }

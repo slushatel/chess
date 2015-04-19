@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.javamonkeys.dao.user.User;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+
 @Repository
 public class GameDao implements IGameDao {
 
@@ -92,5 +94,23 @@ public class GameDao implements IGameDao {
         String newMoveText = currentGame.getMoveText() + turn;
         currentGame.setMoveText(newMoveText);
         updateGame(currentGame);
+    }
+
+    public ArrayList<Game> getListGames(User author){
+
+        Query query = getSession().createQuery("from Game where author = :author");
+        query.setParameter("author", author);
+        ArrayList<Game> listGames = (ArrayList<Game>) query.list();
+
+        return listGames;
+    }
+
+    public ArrayList<Game> getListGames(String status) {
+
+        Query query = getSession().createQuery("from Game where status = :status");
+        query.setParameter("status", status);
+        ArrayList<Game> listGames = (ArrayList<Game>) query.list();
+
+        return listGames;
     }
 }

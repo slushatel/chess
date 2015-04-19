@@ -10,7 +10,8 @@ INSERT INTO USERACCESSGROUPS (ID, NAME, ISADMIN) VALUES
   (2, 'user', FALSE),
   (3, 'groupForDelete', FALSE);
 
-INSERT INTO GAMES (ID, MATCHDATE, AUTHOR_ID, WHITE_ID, BLACK_ID, RESULT, MOVETEXT) VALUES
-  (1, null, 1, 2, 1, '0.5-0.5','1.e4 e5'),
-  (2, null, 1, 1, 3, '','1.e4 e5'),
-  (3, null, 2, 2, 3, '','1.e4 e5');
+INSERT INTO GAMES (ID, MATCHDATE, AUTHOR_ID, WHITE_ID, BLACK_ID, RESULT, MOVETEXT, STATUS) VALUES
+  (1, null, 1, 2, 1, '0.5-0.5','1.e4 e5', 'GAME'),
+  (2, null, 1, 1, 3, '','1.e4 e5', 'GAME'),
+  (3, null, 2, 2, 3, '','1.e4 e5', 'SUSPENDED'),
+  (4, null, 2, 2, NULL, '','1.e4 e5', 'NEW');

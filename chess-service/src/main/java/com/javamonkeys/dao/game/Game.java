@@ -35,6 +35,9 @@ public class Game {
     @Column(name = "moveText")
     private String moveText;
 
+    @Column(name = "status")
+    private String status;
+
     public Game(){}
 
     public Game(User author) {
@@ -98,4 +101,11 @@ public class Game {
         this.author = author;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

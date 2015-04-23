@@ -39,7 +39,7 @@ public class GameService implements IGameService {
 
     //    @Inject
     //    RequestInfo requestInfo;
-    static class requestInfo {
+    static class RequestInfo {
         public static final int userId = 1;
     }
 
@@ -51,16 +51,16 @@ public class GameService implements IGameService {
     //        return new Game(new User("email", "no password"));
     //    }
 
-    private <T> ResponseEntity<resp<T>> CreateRespEntity(T res, String err) {
-        resp<T> response = new resp<T>(res, err);
-        ResponseEntity<resp<T>> result = new ResponseEntity<resp<T>>(response, HttpStatus.OK);
+    private <T> ResponseEntity<Resp<T>> createRespEntity(T res, String err) {
+        Resp<T> response = new Resp<T>(res, err);
+        ResponseEntity<Resp<T>> result = new ResponseEntity<Resp<T>>(response, HttpStatus.OK);
         return result;
     }
 
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/user-games/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<resp<List<Game>>> getGamesByUserId(@PathVariable(value = "userId") int userId) {
+    public ResponseEntity<Resp<List<Game>>> getGamesByUserId(@PathVariable(value = "userId") int userId) {
         //        String email = "98765";
         //        if (userDao.getUserByEmail(email) == null) {
         //            try {
@@ -92,22 +92,22 @@ public class GameService implements IGameService {
         query.setParameter("user", user);
         List<Game> list = query.list();
 
-        return CreateRespEntity(list, "");
+        return createRespEntity(list, "");
     }
 
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/{gameId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<resp<Game>> getGame(@PathVariable(value = "gameId") int gameId) {
+    public ResponseEntity<Resp<Game>> getGame(@PathVariable(value = "gameId") int gameId) {
         Game g = gameDao.getGame(gameId);
-        return CreateRespEntity(g, "");
+        return createRespEntity(g, "");
     }
 
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/new-game", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<resp<Game>> getNewGame(@RequestParam(value = "userPlayWhite") boolean userPlayWhite) {
-        int userId = requestInfo.userId;
+    public ResponseEntity<Resp<Game>> getNewGame(@RequestParam(value = "userPlayWhite") boolean userPlayWhite) {
+        int userId = RequestInfo.userId;
         User user = userDao.getUserById(userId);
         Game g = gameDao.createGame(user);
         if (userPlayWhite) {
@@ -119,45 +119,45 @@ public class GameService implements IGameService {
             gameDao.updateGame(g);
         } catch (GameNotFoundException e) {
             e.printStackTrace();
-            return CreateRespEntity(null, e.getMessage());
+            return createRespEntity(null, e.getMessage());
         }
-        return CreateRespEntity(g, "");
+        return createRespEntity(g, "");
     }
 
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/turn", method = RequestMethod.POST)
-    public ResponseEntity<resp<Boolean>> saveTurn(@RequestBody Turn turn) {
+    public ResponseEntity<Resp<Boolean>> saveTurn(@RequestBody Turn turn) {
         try {
             gameDao.saveTurn(turn.gameId, turn.fen);
         } catch (GameNotFoundException e) {
-            return CreateRespEntity(null, e.getMessage());
+            return createRespEntity(null, e.getMessage());
         } catch (Exception e) {
-            return CreateRespEntity(null, e.getMessage());
+            return createRespEntity(null, e.getMessage());
         }
 
-        return CreateRespEntity(true, "");
+        return createRespEntity(true, "");
     }
 
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
-    public ResponseEntity<resp<Boolean>> deleteGame(@PathVariable(value = "id") int id) {
+    public ResponseEntity<Resp<Boolean>> deleteGame(@PathVariable(value = "id") int id) {
         try {
             gameDao.deleteGame(id);
         } catch (GameNotFoundException e) {
-            return CreateRespEntity(null, e.getMessage());
+            return createRespEntity(null, e.getMessage());
         } catch (Exception e) {
-            return CreateRespEntity(null, e.getMessage());
+            return createRespEntity(null, e.getMessage());
         }
-        return CreateRespEntity(true, "");
+        return createRespEntity(true, "");
     }
 
-    public static class resp<T> {
+    public static class Resp<T> {
         T value;
         String error;
 
-        public resp() {
+        public Resp() {
         }
 
         public T getValue() {
@@ -176,7 +176,7 @@ public class GameService implements IGameService {
             this.error = error;
         }
 
-        resp(T value, String error) {
+        Resp(T value, String error) {
             this.value = value;
             this.error = error;
         }

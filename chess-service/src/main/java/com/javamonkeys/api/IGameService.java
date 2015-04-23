@@ -10,27 +10,27 @@ import java.util.List;
 
 public interface IGameService {
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/user-games/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    ResponseEntity<GameService.resp<List<Game>>> getGamesByUserId(@PathVariable(value = "userId") int userId);
+    ResponseEntity<GameService.Resp<List<Game>>> getGamesByUserId(@PathVariable(value = "userId") int userId);
 
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/{gameId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    ResponseEntity<GameService.resp<Game>> getGame(@PathVariable(value = "gameId") int gameId);
+    ResponseEntity<GameService.Resp<Game>> getGame(@PathVariable(value = "gameId") int gameId);
 
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/new-game", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    ResponseEntity<GameService.resp<Game>> getNewGame(@RequestParam(value = "userPlayWhite") boolean userPlayWhite);
+    ResponseEntity<GameService.Resp<Game>> getNewGame(@RequestParam(value = "userPlayWhite") boolean userPlayWhite);
 
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/turn", method = RequestMethod.POST)
-    ResponseEntity<GameService.resp<Boolean>> saveTurn(@RequestBody GameService.Turn turn);
+    ResponseEntity<GameService.Resp<Boolean>> saveTurn(@RequestBody GameService.Turn turn);
 
     @Transactional
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
-    ResponseEntity<GameService.resp<Boolean>> deleteGame(@PathVariable(value = "id") int id);
+    ResponseEntity<GameService.Resp<Boolean>> deleteGame(@PathVariable(value = "id") int id);
 }

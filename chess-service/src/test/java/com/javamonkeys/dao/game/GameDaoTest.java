@@ -63,7 +63,7 @@ public class GameDaoTest {
     @Test
     public void testGetListGames2(){
 
-        ArrayList<Game> listGames = gameDao.getListGames("GAME");
+        ArrayList<Game> listGames = gameDao.getListGames(GameStatus.GAME);
         assertNotNull("Return value (Game) can't be null!", listGames);
     }
 

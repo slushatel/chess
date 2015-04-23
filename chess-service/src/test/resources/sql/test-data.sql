@@ -15,3 +15,7 @@ INSERT INTO GAMES (ID, MATCHDATE, AUTHOR_ID, WHITE_ID, BLACK_ID, RESULT, MOVETEX
   (2, null, 1, 1, 3, '','1.e4 e5', 'GAME'),
   (3, null, 2, 2, 3, '','1.e4 e5', 'SUSPENDED'),
   (4, null, 2, 2, NULL, '','1.e4 e5', 'NEW');
+
+INSERT INTO TURNS (ID, TURNDATE, USER_ID, GAME_ID, PIECE, STARTPOSITION, ENDPOSITION, FEN) VALUES
+  (1, null, 1, 1, 'PAWN', 'e2', 'e4', '00000'),
+  (2, null, 2, 1, 'PAWN', 'e7', 'e5', '00000'),

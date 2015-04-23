@@ -21,5 +21,7 @@ public interface IGameDao {
 
     public ArrayList<Game> getListGames(User author);
 
-    public ArrayList<Game> getListGames(String status);
+    public ArrayList<Game> getListGames(GameStatus status);
+
+    public ArrayList<Turn> getGamesTurns(Game game);
 }

@@ -105,12 +105,20 @@ public class GameDao implements IGameDao {
         return listGames;
     }
 
-    public ArrayList<Game> getListGames(String status) {
+    public ArrayList<Game> getListGames(GameStatus status) {
 
         Query query = getSession().createQuery("from Game where status = :status");
         query.setParameter("status", status);
         ArrayList<Game> listGames = (ArrayList<Game>) query.list();
 
         return listGames;
+    }
+    public ArrayList<Turn> getGamesTurns(Game game){
+
+        Query query = getSession().createQuery("from Turn where game = :game");
+        query.setParameter("game", game);
+        ArrayList<Turn> listTurns = (ArrayList<Turn>) query.list();
+
+        return listTurns;
     }
 }

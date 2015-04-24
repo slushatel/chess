@@ -7,7 +7,7 @@ public enum Pieces {
     ROOK("R"),
     BISHOP("B"),
     KNIGHT("N"),
-    PAWN("");
+    PAWN("p");
 
     private String shortName;
 

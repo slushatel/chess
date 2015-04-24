@@ -2,7 +2,16 @@ package com.javamonkeys.dao.game;
 
 import com.javamonkeys.dao.user.User;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+
+import jdk.internal.org.objectweb.asm.commons.TryCatchBlockSorter;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import java.io.IOException;
 
 
 @Entity
@@ -15,7 +24,7 @@ public class Game {
     private int id;
 
     @Column(name = "matchDate")
-    Date matchDate;
+    private Date matchDate;
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "author_id")
@@ -34,6 +43,10 @@ public class Game {
 
     @Column(name = "moveText")
     private String moveText;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private GameStatus status;
 
     public Game(){}
 
@@ -98,4 +111,13 @@ public class Game {
         this.author = author;
     }
 
+    @Enumerated(EnumType.STRING)
+    public GameStatus getStatus() {
+        return status;
+    }
+
+    @Enumerated(EnumType.STRING)
+    public void setStatus(GameStatus status) {
+        this.status = status;
+    }
 }

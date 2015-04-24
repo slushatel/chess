@@ -10,13 +10,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:test-dao-config.xml"})
+@Transactional
 public class GameDaoTest {
 
     @Inject
@@ -46,6 +49,22 @@ public class GameDaoTest {
 
         Game game = gameDao.getGame(1);
         assertNotNull("Return value (Game) can't be null!", game);
+    }
+
+    @Test
+    public void testGetListGames1(){
+
+        currentUser = getUserForServiceUse(currentUserEmail);
+
+        ArrayList<Game> listGames = gameDao.getListGames(currentUser);
+        assertNotNull("Return value (Game) can't be null!", listGames);
+    }
+
+    @Test
+    public void testGetListGames2(){
+
+        ArrayList<Game> listGames = gameDao.getListGames(GameStatus.GAME);
+        assertNotNull("Return value (Game) can't be null!", listGames);
     }
 
     @Test

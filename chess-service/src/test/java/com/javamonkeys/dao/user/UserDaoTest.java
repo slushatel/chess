@@ -196,7 +196,7 @@ public class UserDaoTest {
     @Test
     public void testGetUserById(){
 
-        int id = 3;
+        String id = "3";
         String email = "filippov@javamonkeys.com";
         String password = "12345";
 
@@ -211,7 +211,7 @@ public class UserDaoTest {
      * User doesn't exist in DB. */
     @Test
     public void testGetUserByIdNullIfNotFound() {
-        User currentUser = userDao.getUserById(-1);
+        User currentUser = userDao.getUserById("-1");
         assertNull(currentUser);
     }
 
@@ -328,12 +328,14 @@ public class UserDaoTest {
             String newPassword = "111";
             Date newBirthDate = new Date();
             String newToken = "new token";
+            String newName = "John Doe";
             UserAccessGroup newGroup = userDao.getUserAccessGroup("admin");
 
             //assertNotEquals(newEmail, user.getEmail());
             assertNotEquals(newPassword, user.getPassword());
             assertNotEquals(newBirthDate, user.getBirthDate());
             assertNotEquals(newToken, user.getToken());
+            assertNotEquals(newName, user.getName());
             assertNotEquals(newGroup.getId(), user.getUserAccessGroup().getId());
             assertNotEquals(newGroup.getName(), user.getUserAccessGroup().getName());
 
@@ -341,6 +343,7 @@ public class UserDaoTest {
             user.setPassword(newPassword);
             user.setBirthDate(newBirthDate);
             user.setToken(newToken);
+            user.setName(newName);
             user.setUserAccessGroup(newGroup);
 
             userDao.updateUser(user);
@@ -352,6 +355,7 @@ public class UserDaoTest {
             assertEquals(newPassword, user.getPassword());
             assertEquals(newBirthDate, user.getBirthDate());
             assertEquals(newToken, user.getToken());
+            assertEquals(newName, user.getName());
             assertEquals(newGroup.getId(), user.getUserAccessGroup().getId());
             assertEquals(newGroup.getName(), user.getUserAccessGroup().getName());
 

@@ -10,13 +10,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int id;
+    private String id;
 
     @Column(name = "email", unique=true)
     private String email;
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "birthDate")
     private Date birthDate;
@@ -58,7 +61,7 @@ public class User {
      * Get user ID.
      * @return current user ID
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -66,7 +69,7 @@ public class User {
      * Set user ID.
      * @param id new user ID
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -148,6 +151,14 @@ public class User {
      */
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     // TODO - refactor usages / delete method

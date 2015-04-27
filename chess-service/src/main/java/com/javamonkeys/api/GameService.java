@@ -40,7 +40,7 @@ public class GameService implements IGameService {
     //    @Inject
     //    RequestInfo requestInfo;
     static class RequestInfo {
-        public static final int userId = 1;
+        public static final String userId = "1";
     }
 
     ;
@@ -60,7 +60,7 @@ public class GameService implements IGameService {
     @Transactional
 //    @ResponseBody
     @RequestMapping(value = "/user-games/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Resp<List<Game>>> getGamesByUserId(@PathVariable(value = "userId") int userId) {
+    public ResponseEntity<Resp<List<Game>>> getGamesByUserId(@PathVariable(value = "userId") String userId) {
         //        String email = "98765";
         //        if (userDao.getUserByEmail(email) == null) {
         //            try {
@@ -107,7 +107,7 @@ public class GameService implements IGameService {
 //    @ResponseBody
     @RequestMapping(value = "/new-game", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public ResponseEntity<Resp<Game>> getNewGame(@RequestParam(value = "userPlayWhite") boolean userPlayWhite) {
-        int userId = RequestInfo.userId;
+        String userId = RequestInfo.userId;
         User user = userDao.getUserById(userId);
         Game g = gameDao.createGame(user);
         if (userPlayWhite) {

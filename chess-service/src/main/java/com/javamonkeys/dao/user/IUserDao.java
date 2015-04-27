@@ -4,7 +4,7 @@ import java.util.Date;
 
 public interface IUserDao {
 
-    public User getUserById(int id);
+    public User getUserById(String id);
 
     public User getUserByEmail(String email);
 

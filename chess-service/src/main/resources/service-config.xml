@@ -7,11 +7,12 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="com.javamonkeys.dao"/>
+    <context:component-scan base-package="com.javamonkeys.api"/>
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.h2.Driver"/>
-        <property name="url" value="jdbc:h2:file:D:\GoogleDrive\java\Projects\chess\.idea\database_local/chessDB"/>
+        <property name="url" value="jdbc:h2:file:~/db/chessDB"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>
     </bean>
@@ -25,11 +26,13 @@
             <list>
                 <value>com.javamonkeys.dao.user</value>
                 <value>com.javamonkeys.dao.game</value>
+                <value>com.javamonkeys.api</value>
             </list>
         </property>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <!--<prop key="hibernate.hbm2ddl.auto">create-drop</prop>-->
             </props>
         </property>
     </bean>

@@ -1,6 +1,5 @@
 package com.javamonkeys.dao.user;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,7 +11,6 @@ import javax.transaction.Transactional;
 import java.util.Date;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:test-dao-config.xml"})

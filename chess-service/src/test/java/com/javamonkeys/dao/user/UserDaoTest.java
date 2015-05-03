@@ -6,14 +6,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import java.util.Date;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath*:test-dao-config.xml"})
+@Transactional
 public class UserDaoTest {
 
     @Inject
@@ -189,9 +190,34 @@ public class UserDaoTest {
         }
     }
 
+    /** Get user by id from DB
+     * User already exists in DB.
+     * User should be get (not null) */
+    @Test
+    public void testGetUserById(){
+
+        String id = "3";
+        String email = "filippov@javamonkeys.com";
+        String password = "12345";
+
+        User user = userDao.getUserById(id);
+        assertNotNull("Return value (USER) shouldn't be null!", user);
+        assertEquals("Incorrect user", email, user.getEmail());
+        assertEquals("Incorrect user", password, user.getPassword());
+
+    }
+
+    /** Get user by id
+     * User doesn't exist in DB. */
+    @Test
+    public void testGetUserByIdNullIfNotFound() {
+        User currentUser = userDao.getUserById("-1");
+        assertNull(currentUser);
+    }
+
     /** Get user by Email from DB
      * User already exists in DB.
-     * User should be get (not null) or expected UserNotFoundException exception */
+     * User should be get (not null) */
     @Test
     public void testGetUserByEmail(){
 
@@ -223,7 +249,7 @@ public class UserDaoTest {
 
     /** Get user by token from DB
      * User already exists in DB.
-     * User should be get (not null) or expected UserNotFoundException exception */
+     * User should be get (not null) */
     @Test
     public void testGetUserByToken(){
 
@@ -302,12 +328,14 @@ public class UserDaoTest {
             String newPassword = "111";
             Date newBirthDate = new Date();
             String newToken = "new token";
+            String newName = "John Doe";
             UserAccessGroup newGroup = userDao.getUserAccessGroup("admin");
 
             //assertNotEquals(newEmail, user.getEmail());
             assertNotEquals(newPassword, user.getPassword());
             assertNotEquals(newBirthDate, user.getBirthDate());
             assertNotEquals(newToken, user.getToken());
+            assertNotEquals(newName, user.getName());
             assertNotEquals(newGroup.getId(), user.getUserAccessGroup().getId());
             assertNotEquals(newGroup.getName(), user.getUserAccessGroup().getName());
 
@@ -315,6 +343,7 @@ public class UserDaoTest {
             user.setPassword(newPassword);
             user.setBirthDate(newBirthDate);
             user.setToken(newToken);
+            user.setName(newName);
             user.setUserAccessGroup(newGroup);
 
             userDao.updateUser(user);
@@ -326,6 +355,7 @@ public class UserDaoTest {
             assertEquals(newPassword, user.getPassword());
             assertEquals(newBirthDate, user.getBirthDate());
             assertEquals(newToken, user.getToken());
+            assertEquals(newName, user.getName());
             assertEquals(newGroup.getId(), user.getUserAccessGroup().getId());
             assertEquals(newGroup.getName(), user.getUserAccessGroup().getName());
 
@@ -507,7 +537,7 @@ public class UserDaoTest {
             User currentUserByToken = userDao.getUserByToken(newToken);
             assertEquals(newToken, currentUserByToken.getToken());
 
-        } catch (IncorrectUserCredentials e) {
+        } catch (IncorrectUserCredentialsException e) {
             fail("User with email " + email + " and password " + password + " was not found");
         }
 
@@ -516,38 +546,38 @@ public class UserDaoTest {
     /** Login operation (incorrect email)
      * User doesn't exist in DB.
      * Expected IncorrectUserCredentials exception */
-    @Test(expected = IncorrectUserCredentials.class)
-    public void testLoginExceptionIncorrectEmail() throws IncorrectUserCredentials {
+    @Test(expected = IncorrectUserCredentialsException.class)
+    public void testLoginExceptionIncorrectEmail() throws IncorrectUserCredentialsException {
         userDao.login("empty-incorrect-email", "12345");
     }
 
     /** Login operation (incorrect password)
      * User already exists in DB, password - incorrect.
      * Expected IncorrectUserCredentials exception */
-    @Test(expected = IncorrectUserCredentials.class)
-    public void testLoginExceptionIncorrectPassword() throws IncorrectUserCredentials {
+    @Test(expected = IncorrectUserCredentialsException.class)
+    public void testLoginExceptionIncorrectPassword() throws IncorrectUserCredentialsException {
         userDao.login("serdyukov@javamonkeys.com", "incorrect password");
     }
 
     /** Login operation (null email)
      * User doesn't exist in DB.
      * Expected IncorrectUserCredentials exception */
-    @Test(expected = IncorrectUserCredentials.class)
-    public void testLoginTestForNullEmail() throws IncorrectUserCredentials {
+    @Test(expected = IncorrectUserCredentialsException.class)
+    public void testLoginTestForNullEmail() throws IncorrectUserCredentialsException {
         userDao.login(null, "12345");
     }
 
     /** Login operation (null password)
      * User already exists in DB.
      * Expected IncorrectUserCredentials exception */
-    @Test(expected = IncorrectUserCredentials.class)
-    public void testLoginTestForNullPassword() throws IncorrectUserCredentials {
+    @Test(expected = IncorrectUserCredentialsException.class)
+    public void testLoginTestForNullPassword() throws IncorrectUserCredentialsException {
         userDao.login("serdyukov@javamonkeys.com", null);
     }
 
     /** Logout operation
      * User already exists in DB.
-     * Token should be deleted from user */
+     * Token should be deleted from user data*/
     @Test
     public void testLogout() {
 
@@ -560,31 +590,11 @@ public class UserDaoTest {
         String currentToken = currentUser.getToken();
         assertNotNull("Current token should be not null. Check test data", currentToken);
 
-        try {
-            userDao.logout(currentUser);
+        userDao.logout(currentUser);
 
-            currentUser = userDao.getUserByEmail(email);
-            assertNull(currentUser.getToken());
-
-        } catch (UserNotFoundException e){
-            fail("User with email " + email + " was not found. Check test data");
-        }
+        currentUser = userDao.getUserByEmail(email);
+        assertNull(currentUser.getToken());
     }
 
-    /** Logout operation (incorrect user)
-     * User doesn't exist in DB.
-     * Expected UserNotFoundException exception */
-    @Test(expected = UserNotFoundException.class)
-    public void testLogoutException() throws UserNotFoundException {
-        userDao.logout(new User("test", "test"));
-    }
-
-    /** Logout operation (null user)
-     * User doesn't exist in DB.
-     * Expected UserNotFoundException exception */
-    @Test(expected = UserNotFoundException.class)
-    public void testLogoutTestForNullArguments() throws UserNotFoundException {
-        userDao.logout(null);
-    }
 }
 

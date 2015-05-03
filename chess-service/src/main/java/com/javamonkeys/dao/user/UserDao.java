@@ -5,7 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.UUID;
@@ -43,12 +42,25 @@ public class UserDao implements IUserDao {
     }
 
     /**
+     * Find user by id.
+     *
+     * @param id user id
+     * @return user
+     */
+    public User getUserById(String id) {
+
+        Query query = getSession().createQuery("from User where id = :id");
+        query.setParameter("id", id);
+
+        return (User) query.uniqueResult();
+    }
+
+    /**
      * Find user by email.
      *
      * @param email user email
      * @return user
      */
-    @Transactional
     public User getUserByEmail(String email) {
 
         if (email==null)
@@ -66,7 +78,6 @@ public class UserDao implements IUserDao {
      * @param token user token
      * @return user
      */
-    @Transactional
     public User getUserByToken(String token) {
 
         if (token == null)
@@ -88,7 +99,6 @@ public class UserDao implements IUserDao {
      * @throws UserAlreadyExistException if user which this email already exists
      *         IllegalArgumentException if incorrect arguments passed
      */
-    @Transactional
     public User createUser(String email, String password, UserAccessGroup userAccessGroup) throws UserAlreadyExistException,
             IllegalArgumentException {
 
@@ -122,7 +132,6 @@ public class UserDao implements IUserDao {
      * @throws UserAlreadyExistException if user which this email already exist
      *         IllegalArgumentException if incorrect arguments passed
      */
-    @Transactional
     public User createUser(String email, String password, UserAccessGroup userAccessGroup, Date birthDate) throws UserAlreadyExistException,
             IllegalArgumentException {
 
@@ -155,7 +164,6 @@ public class UserDao implements IUserDao {
      * @throws UserNotFoundException if this user doesn't exist in DataBase
      *         IllegalArgumentException if incorrect arguments passed
      */
-    @Transactional
     public void deleteUser(User user) throws UserNotFoundException, IllegalArgumentException {
 
         if (user==null)
@@ -175,7 +183,6 @@ public class UserDao implements IUserDao {
      * @throws UserNotFoundException if this user doesn't exist in DataBase
      *         IllegalArgumentException if incorrect arguments passed
      */
-    @Transactional
     public void updateUser(User user) throws UserNotFoundException, IllegalArgumentException {
 
         if (user == null)
@@ -194,7 +201,6 @@ public class UserDao implements IUserDao {
      * @param name name of group
      * @return user access group
      */
-    @Transactional
     public UserAccessGroup getUserAccessGroup(String name) {
 
         if (name==null)
@@ -216,7 +222,6 @@ public class UserDao implements IUserDao {
      * @throws UserAccessGroupAlreadyExistException if user access group which this name already exists
      *         IllegalArgumentException if incorrect arguments passed
      */
-    @Transactional
     public UserAccessGroup createUserAccessGroup(String name, boolean isAdmin) throws UserAccessGroupAlreadyExistException,
             IllegalArgumentException {
 
@@ -240,7 +245,6 @@ public class UserDao implements IUserDao {
      * @throws UserAccessGroupNotFoundException if this user access group doesn't exist in DataBase
      *         IllegalArgumentException if incorrect arguments passed
      */
-    @Transactional
     public void deleteUserAccessGroup(UserAccessGroup userAccessGroup) throws UserAccessGroupNotFoundException,
             IllegalArgumentException {
 
@@ -258,18 +262,17 @@ public class UserDao implements IUserDao {
      * Login operation
      * @param email user email
      * @param password user password
-     * @throws IncorrectUserCredentials if passed incorrect email or password data
+     * @throws IncorrectUserCredentialsException if passed incorrect email or password data
      */
-    @Transactional
-    public String login(String email, String password) throws IncorrectUserCredentials {
+    public String login(String email, String password) throws IncorrectUserCredentialsException {
 
         if (email == null || password == null)
-            throw new IncorrectUserCredentials();
+            throw new IncorrectUserCredentialsException();
 
         User currentUser = getUserByEmail(email);
 
         if(currentUser==null || !currentUser.getPassword().equals(password))
-            throw new IncorrectUserCredentials();
+            throw new IncorrectUserCredentialsException();
 
         String newToken = generateNewUniqueToken();
         currentUser.setToken(newToken);
@@ -283,19 +286,13 @@ public class UserDao implements IUserDao {
      * @param user current user
      * @throws UserNotFoundException if user doesn't exist in DataBase
      */
-    @Transactional
-    public void logout(User user) throws UserNotFoundException {
+    public void logout(User user) {
 
         if (user == null)
-            throw new UserNotFoundException("User: " + user + "was not found");
+            return;
 
-        User currentUser = getUserByEmail(user.getEmail());
-
-        if (currentUser == null)
-            throw new UserNotFoundException("User with email: " + user.getEmail() + "was not found");
-
-        currentUser.setToken(null);
-        persist(currentUser);
+        user.setToken(null);
+        persist(user);
     }
 
     /**
@@ -304,7 +301,6 @@ public class UserDao implements IUserDao {
      * @param password user password
      * @throws UserAlreadyExistException if user doesn't exist in DataBase
      */
-    @Transactional
     public void register(String email, String password) throws UserAlreadyExistException {
 
         User currentUser = getUserByEmail(email);

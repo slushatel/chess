@@ -67,7 +67,7 @@
     }
    body {
    color: maroon; 
-   background-image: url(backgr11.jpg);    
+   background-image: url(../backgr11.jpg);
    background-attachment: scroll;
    margin: 10px 10px 10px 10px; /* top, rigth, button, left*/
    /*border: 1px solid #666;

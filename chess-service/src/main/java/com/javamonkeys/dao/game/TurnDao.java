@@ -1,10 +1,13 @@
 package com.javamonkeys.dao.game;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+@Repository
 public class TurnDao implements ITurnDao{
 
     @Autowired
@@ -18,7 +21,16 @@ public class TurnDao implements ITurnDao{
         getSession().save(entity);
     }
     @Transactional
-    public void SaveTurn(Turn turn) {
+    public void saveTurn(Turn turn) {
         save(turn);
+    }
+    @Transactional
+    public Turn getLastTurn(Game game) {
+
+        Query query = getSession().createQuery("select first 1 from Turn where game_id = :id order by id");
+        query.setParameter("id", game.getId());
+        Turn lastTurn = (Turn) query.uniqueResult();
+
+        return lastTurn;
     }
 }

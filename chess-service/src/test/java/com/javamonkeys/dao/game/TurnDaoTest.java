@@ -45,7 +45,7 @@ public class TurnDaoTest {
         Game currentGame = getGameForServiceUse(2);
 
         Turn turn = new Turn(currentGame, currentUser, new Date(),Pieces.PAWN, "e2","e4","0505");
-        turnDao.SaveTurn(turn);
+        turnDao.saveTurn(turn);
         assertNotNull("Return value (Game) can't be null!", turn);
     }
 

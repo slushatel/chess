@@ -21,7 +21,7 @@ public class TurnDao implements ITurnDao{
         getSession().save(entity);
     }
     @Transactional
-    public void SaveTurn(Turn turn) {
+    public void saveTurn(Turn turn) {
         save(turn);
     }
     @Transactional

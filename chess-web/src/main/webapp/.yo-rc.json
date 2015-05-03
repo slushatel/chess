@@ -5,8 +5,8 @@
     "coffee": false,
     "testFramework": "mocha",
     "templateFramework": "lodash",
-    "sassBootstrap": false,
-    "includeRequireJS": true
+    "sassBootstrap": true,
+    "includeRequireJS": false
   },
   "generator-mocha": {}
 }

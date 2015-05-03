@@ -17,6 +17,8 @@
         Java Monkeys
     </footer>
 
+    <a href="/login.html"> Click Here to Login </a>
+
 
 </div>
 </body>

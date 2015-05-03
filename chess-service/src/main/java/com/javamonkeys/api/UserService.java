@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Service("userService")
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserService implements IUserService {
 
     @Inject

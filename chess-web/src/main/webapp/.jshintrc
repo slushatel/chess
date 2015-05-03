@@ -17,8 +17,8 @@
     "strict": true,
     "jquery": true,
     "globals": {
-        "Webapp": true,
-        "webapp": true,
+        "ChessApp": true,
+        "chessapp": true,
         "_": false,
         "Backbone": false,
         "JST": false,
@@ -27,8 +27,6 @@
         "it": false,
         "assert": true,
         "expect": true,
-        "should": true,
-        "require": false,
-        "define": false
+        "should": true
     }
 }

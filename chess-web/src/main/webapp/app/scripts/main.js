@@ -1,18 +1,18 @@
-/*global require*/
-'use strict';
+/*global ChessApp, $*/
 
-require.config({
-    shim: {
-    },
-    paths: {
-        jquery: '../bower_components/jquery/dist/jquery',
-        backbone: '../bower_components/backbone/backbone',
-        underscore: '../bower_components/lodash/dist/lodash'
+
+window.ChessApp = {
+    Models: {},
+    Collections: {},
+    Views: {},
+    Routers: {},
+    init: function () {
+        'use strict';
+        console.log('Hello from Backbone!');
     }
-});
+};
 
-require([
-    'backbone'
-], function (Backbone) {
-    Backbone.history.start();
+$(document).ready(function () {
+    'use strict';
+    ChessApp.init();
 });

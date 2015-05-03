@@ -8,10 +8,10 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
        <http auto-config="true">
-              <intercept-url pattern="/index.jsp*" access="denyAll"/>
-              <intercept-url pattern="/login.jsp*" access="permitAll"/>
+              <intercept-url pattern="/index.html*" access="permitAll"/>
+              <intercept-url pattern="/login.html*" access="permitAll"/>
               <intercept-url pattern="/**" access="hasRole('USER')" />
-              <form-login login-page="/login.html"/>
+              <form-login login-page="/app/login.html"/>
        </http>
 
        <beans:bean id="userDetailsService" class="com.javamonkeys.security.UserDetailsServiceImpl"/>

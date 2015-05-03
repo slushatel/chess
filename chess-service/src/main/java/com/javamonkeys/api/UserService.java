@@ -55,21 +55,21 @@ public class UserService implements IUserService {
     @Transactional
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody User getUser(@PathVariable("id") int id) {
+    public @ResponseBody User getUser(@PathVariable("id") String id) {
         return userDao.getUserById(id);
     }
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable("id") int id) throws UserNotFoundException {
+    public void deleteUser(@PathVariable("id") String id) throws UserNotFoundException {
         userDao.deleteUser(userDao.getUserById(id));
     }
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable("id") int id, @RequestBody User sourceUser) throws UserNotFoundException {
+    public void updateUser(@PathVariable("id") String id, @RequestBody User sourceUser) throws UserNotFoundException {
 
         User currentUser = userDao.getUserById(id);
         if (currentUser == null)

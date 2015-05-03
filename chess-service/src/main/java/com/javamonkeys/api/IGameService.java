@@ -12,7 +12,7 @@ public interface IGameService {
     @Transactional
 //    @ResponseBody
     @RequestMapping(value = "/user-games/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    ResponseEntity<GameService.Resp<List<Game>>> getGamesByUserId(@PathVariable(value = "userId") int userId);
+    ResponseEntity<GameService.Resp<List<Game>>> getGamesByUserId(@PathVariable(value = "userId") String userId);
 
     @Transactional
 //    @ResponseBody

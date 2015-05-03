@@ -47,7 +47,7 @@ public class UserDao implements IUserDao {
      * @param id user id
      * @return user
      */
-    public User getUserById(int id) {
+    public User getUserById(String id) {
 
         Query query = getSession().createQuery("from User where id = :id");
         query.setParameter("id", id);

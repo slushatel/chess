@@ -12,10 +12,10 @@ public interface IUserService {
 
     public void logout(String token);
 
-    public User getUser(int id);
+    public User getUser(String id);
 
-    public void deleteUser(int id) throws UserNotFoundException;
+    public void deleteUser(String id) throws UserNotFoundException;
 
-    public void updateUser(int id, User sourceUser) throws UserNotFoundException;
+    public void updateUser(String id, User sourceUser) throws UserNotFoundException;
 
 }

@@ -2,6 +2,7 @@ package com.javamonkeys.dao.game;
 
 import com.javamonkeys.dao.user.User;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,7 +10,7 @@ public interface IGameDao {
 
     public Game getGame(int id);
 
-    public Game createGame(User author);
+    public Game createGame(User user, Boolean isWhite, long gameLength);
 
     public Game updateGame(Game game) throws GameNotFoundException;
 

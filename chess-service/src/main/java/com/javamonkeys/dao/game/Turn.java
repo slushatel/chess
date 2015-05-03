@@ -38,6 +38,20 @@ public class Turn {
     @Column(name = "fen")
     private String fen;
 
+    public Turn() {
+
+    }
+
+    public Turn(Game game, User user, Date turnDate, Pieces piece, String startPosition, String endPosition, String fen) {
+        this.game = game;
+        this.user = user;
+        this.turnDate = turnDate;
+        this.piece = piece;
+        this.startPosition = startPosition;
+        this.endPosition = endPosition;
+        this.fen = fen;
+    }
+
     public int getId() {
         return id;
     }

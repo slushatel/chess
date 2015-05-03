@@ -38,6 +38,18 @@ public class Game {
     @JoinColumn(name = "black_id")
     private User black;
 
+    @Column(name = "startTime")
+    private Date startTime;
+
+    @Column(name = "gameLength")
+    private long gameLength;
+
+    @Column(name = "whiteTime")
+    private long whiteTime;
+
+    @Column(name = "blackTime")
+    private long blackTime;
+
     @Column(name = "result")
     private String result;
 
@@ -50,9 +62,17 @@ public class Game {
 
     public Game(){}
 
-    public Game(User author) {
+    public Game(User user, Boolean isWhite, long gameLength) {
         setMatchDate(new Date());
-        setAuthor(author);
+
+        if (isWhite)
+        {
+            setWhite(user);
+        }
+        else
+        {
+            setBlack(user);
+        }
     }
 
     public int getId() {
@@ -119,5 +139,37 @@ public class Game {
     @Enumerated(EnumType.STRING)
     public void setStatus(GameStatus status) {
         this.status = status;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getGameLength() {
+        return gameLength;
+    }
+
+    public void setGameLength(long gameLength) {
+        this.gameLength = gameLength;
+    }
+
+    public long getWhiteTime() {
+        return whiteTime;
+    }
+
+    public void setWhiteTime(long whiteTime) {
+        this.whiteTime = whiteTime;
+    }
+
+    public long getBlackTime() {
+        return blackTime;
+    }
+
+    public void setBlackTime(long blackTime) {
+        this.blackTime = blackTime;
     }
 }

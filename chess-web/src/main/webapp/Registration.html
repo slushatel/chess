@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset="utf-8">
@@ -6,27 +6,27 @@
   <title>Registration page</title>  
  <link href="style1.css" rel="stylesheet" type="text/css">    
  </head>
-<body  text="maroon" background="backgr11.jpg "  bgproperties="fixed"  rightmargin="100" leftmargin="50"  topmargin="20">  
+<body align="center">  
   
-  <h1> JavaMonkeys</h1> 
-  <table align="center">       
+  <p class="heads"> <span> JavaMonkeys </span> </p>
+  <table align="center" class="col">       
    
-     <th class="str0">  <h2>User Registration:create your login (e-mail)) & <br> password for registration:    </h2> </th>
+     <th class="str0">  <h2>User Registration:</h2> </th>
     <tr>
     <td class="str1">
-    <form name ="registration" method = "get" action = "UserProfile.html" >
+    <form name ="registration" method = "POST" action = "UserProfile.html" >
     <ul>
       <li >
           <label   for="username">Your Name</label>
-          <input  type="EMAIL" name="username" size="25"  title=" Enter your name " placeholder="your name" required> 
+          <input  type="text" name="username" size="25"  title=" Enter your name " placeholder="your name" value="test" required> 
       </li> 				
       <li >
           <label   for="usermail">Your E-mail</label>
-          <input  type="EMAIL" name="usermail" size="25"  title=" Enter your email " placeholder="your mail@example.com" required> 
+          <input  type="EMAIL" name="usermail" size="25"  title=" Enter your email " placeholder="your mail@example.com" value="test@test.test" required> 
       </li>
 			<li> 
           <label for="userpassword">Create Password</label>
-          <input  type="password" name="userpassword" size="25"  title=" Create password with more than 8 chars  " placeholder="password" required>
+          <input  type="password" name="userpassword" size="25"  title=" Create password with more than 8 chars  " placeholder="password" value="test" required>
       </li> 
       <li>  				
         <input  type="submit" value="Confirm" > 

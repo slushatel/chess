@@ -27,8 +27,9 @@ public class TurnDao implements ITurnDao{
     @Transactional
     public Turn getLastTurn(Game game) {
 
-        Query query = getSession().createQuery("select first 1 from Turn where game_id = :id order by id");
+        Query query = getSession().createQuery("from Turn where game_id = :id order by id");
         query.setParameter("id", game.getId());
+        query.setMaxResults(1);
         Turn lastTurn = (Turn) query.uniqueResult();
 
         return lastTurn;

@@ -49,4 +49,12 @@ public class TurnDaoTest {
         assertNotNull("Return value (Game) can't be null!", turn);
     }
 
+    @Test
+    public void testGetLastTurn(){
+
+        Game currentGame = getGameForServiceUse(1);
+
+        Turn turn = turnDao.getLastTurn(currentGame);
+        assertNotNull("Return value (Game) can't be null!", turn);
+    }
 }

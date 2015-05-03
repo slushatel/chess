@@ -10,6 +10,7 @@ import com.javamonkeys.dao.user.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Repository
 public class GameDao implements IGameDao {
@@ -44,9 +45,9 @@ public class GameDao implements IGameDao {
     }
 
     @Transactional
-    public Game createGame(User author) {
+    public Game createGame(User user, Boolean isWhite, long gameLength) {
 
-        Game newGame = new Game(author);
+        Game newGame = new Game(user, isWhite, gameLength);
         save(newGame);
 
         return newGame;

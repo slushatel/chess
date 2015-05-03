@@ -40,7 +40,7 @@ public class GameDaoTest {
 
         currentUser = getUserForServiceUse(currentUserEmail);
 
-        Game game = gameDao.createGame(currentUser);
+        Game game = gameDao.createGame(currentUser, true, 500);
         assertNotNull("Return value (Game) can't be null!", game);
     }
 
@@ -63,7 +63,7 @@ public class GameDaoTest {
     @Test
     public void testGetListGames2(){
 
-        ArrayList<Game> listGames = gameDao.getListGames(GameStatus.GAME);
+        ArrayList<Game> listGames = gameDao.getListGames(GameStatus.IN_PROGRESS);
         assertNotNull("Return value (Game) can't be null!", listGames);
     }
 

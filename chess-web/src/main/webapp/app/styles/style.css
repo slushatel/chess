@@ -1,0 +1,149 @@
+﻿
+    .col0 {
+    background: rgba(213, 213, 230, 0.5);
+    text-align: center;
+    }
+
+    .col00 {
+    background: rgba(213, 213, 230, 0.5);
+    text-align: right;
+
+    }
+
+    .col1{
+    width: 25%;
+    text-align: center;
+    background: rgba(225, 225, 225, 0.5);
+    }
+
+   .col2{
+    width: 75%;
+    text-align: left;
+    background: rgba(225, 225, 225, 0.5);
+    font-weight: bold;
+    /*color: white;    */
+   }
+
+   .col {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    .rightimg  {
+    float: right;
+    margin: 0px 20px 100px 50px;
+    border-radius: 10px;
+    border: 3px solid maroon;
+    box-shadow: 0 0 7px #666;
+    width: 30%;
+   }
+
+   .str0 {
+     height: 50px;
+     background: rgba(213, 213, 230, 0.5);
+    }
+
+    .str1 {
+    height: 250px;
+    text-align: left;
+    background: rgba(225, 225, 225, 0.5);
+
+   }
+
+    .str2 {
+    height: 50px;
+    text-align: right;
+    background: rgba(225, 225, 225, 0.5);
+    font-weight: bold;
+    font-size: small;
+    /*color: white;   /* text color  */
+   }
+    .tableHeight {
+      height: 400px;
+    }
+
+    .str1 li { /*only for Li in the class str1*/
+    list-style: circle url();
+
+    }
+   body {
+   color: maroon;
+   background-image: url(../images/backgr11.jpg);
+   background-attachment: scroll;
+   margin: 10px 10px 10px 10px; /* top, rigth, button, left*/
+   /*border: 1px solid #666;
+   padding: 10 10 10 10;    */
+   }
+
+   table {
+    font-family: Calibri, sans-serif;
+    border: 2px solid white;
+    border-collapse: separate;
+    width: 800px;
+    border-spacing: 5px 5px;
+    border-radius: 5px ;
+    /*background-image: url(backgr11.jpg); */
+  }
+
+   td, th, td {
+    /*font-family: Georgia, 'Times New Roman', Times, serif; */
+    padding: 10px;
+    border: 2px solid white;
+    vertical-align: top;
+    color: black;
+    border-radius: 5px ;
+   }
+
+   h1 {
+    font-family: Calibri, sans-serif;
+    text-align: center;
+   }
+
+   h2 {
+   font-family: Calibri, sans-serif;
+   text-align: center;
+   }
+
+   p {
+   font-family: Calibri, sans-serif;
+    /*font-family: Georgia, 'Times New Roman', Times, serif;*/
+   }
+
+   button, input {
+   border-radius: 4px ;
+   background: rgb(255, 255, 255);
+   height: auto;
+   width: auto;
+   color: rgb(153, 51, 0); /*font color*/
+   font-weight: solid;
+   padding: 4px 5px 4px 5px;
+   /*border: 5px double rgb(0,0,255); /*make color and width of button border*/
+   }
+   button:hover  {  /*changeing when mousecursor is on this element*/
+    font-weight: bold;
+   }
+   input:hover  {
+    font-weight: bold;
+   }
+
+   span {
+    font-weight: bold;
+    font-size: large;
+   }
+
+   a {
+   font-family: 'Century Gothic', 'Apple Gothic', sans-serif;
+   font-size: large;
+   text-decoration: none;
+   /*font-style: oblique;  */
+   }
+   a:visited  {
+    color: rgb(128,128,128);
+   }
+
+   a:hover  {
+   text-decoration: none;
+    color: white;
+    font-weight: bold;
+    }
+
+

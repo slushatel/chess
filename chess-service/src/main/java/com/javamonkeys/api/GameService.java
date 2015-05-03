@@ -37,7 +37,7 @@ public class GameService implements IGameService {
     //    @Inject
     //    RequestInfo requestInfo;
     static class RequestInfo {
-        public static final String userId = 1;
+        public static final String userId = "1";
     }
 
     ;

@@ -67,33 +67,22 @@ public class GameService implements IGameService {
         User user = userDao.getUserById(userId);
         Game g = gameDao.createGame(user, createGameRequest.isWhite, createGameRequest.gameLength);
 
-//        if (userPlayWhite) {
-//            g.setWhite(user);
-//        } else {
-//            g.setBlack(user);
-//        }
-//        try {
-//            gameDao.updateGame(g);
-//        } catch (GameNotFoundException e) {
-//            e.printStackTrace();
-//            return createRespEntity(null, e.getMessage());
-//        }
         CreateGameResponse resp = new CreateGameResponse(g.getId(), createGameRequest.isWhite);
         return createRespEntity(resp, "");
     }
 
-    @Transactional
-    @RequestMapping(value = "/user-games/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<List<Game>> getGamesByUserId(@PathVariable(value = "userId") String userId) {
-        User user = userDao.getUserById(userId);
-        Session hsf = hibernateSessionFactory.getCurrentSession();
-        Query query = hsf.createQuery(
-                "from Game where author = :user");
-        query.setParameter("user", user);
-        List<Game> list = query.list();
-
-        return createRespEntity(list, "");
-    }
+//    @Transactional
+//    @RequestMapping(value = "/user-games/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+//    public ResponseEntity<List<Game>> getGamesByUserId(@PathVariable(value = "userId") String userId) {
+//        User user = userDao.getUserById(userId);
+//        Session hsf = hibernateSessionFactory.getCurrentSession();
+//        Query query = hsf.createQuery(
+//                "from Game where author = :user");
+//        query.setParameter("user", user);
+//        List<Game> list = query.list();
+//
+//        return createRespEntity(list, "");
+//    }
 
     @Transactional
     @RequestMapping(value = "/connect/{gameId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
@@ -116,16 +105,6 @@ public class GameService implements IGameService {
         } catch (GameNotFoundException e) {
             e.printStackTrace();
         }
-
-//        Session hsf = hibernateSessionFactory.getCurrentSession();
-//        Query query = hsf.createQuery(
-//                "from Game where status = :status");
-//        query.setParameter("status", GameStatus.NEW);
-//        query.setMaxResults(1);
-//        List<Game> list = query.list();
-//        if (list.size() == 0){
-//            return createRespEntity(null, "");
-//        }
 
         CreateGameResponse resp = new CreateGameResponse(g.getId(), isWhite);
         return createRespEntity(resp, "");
@@ -181,7 +160,17 @@ public class GameService implements IGameService {
 
         Turn turn = new Turn(game, user, new Date(), null, turnRequest.startPosition, turnRequest.endPosition, turnRequest.fen);
 
-        turnDao.SaveTurn(turn);
+        turnDao.saveTurn(turn);
+
+        if (turnRequest.isGameOver()){
+            game.setStatus(GameStatus.FINISHED);
+        }
+
+        try {
+            gameDao.updateGame(game);
+        } catch (GameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         return createRespEntity(true, "");
     }
@@ -235,6 +224,15 @@ public class GameService implements IGameService {
         public String startPosition;
         public String endPosition;
         public String fen;
+        public boolean gameOver;
+
+        public boolean isGameOver() {
+            return gameOver;
+        }
+
+        public void setGameOver(boolean gameOver) {
+            this.gameOver = gameOver;
+        }
 
         public String getUserId() {
             return userId;

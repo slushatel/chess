@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //import com.fasterxml.jackson.annotation.*;
@@ -30,6 +31,9 @@ public class GameService implements IGameService {
 
     @Inject
     private UserDao userDao;
+
+    @Inject
+    private TurnDao turnDao;
 
     @Inject
     private SessionFactory hibernateSessionFactory;
@@ -63,33 +67,22 @@ public class GameService implements IGameService {
         User user = userDao.getUserById(userId);
         Game g = gameDao.createGame(user, createGameRequest.isWhite, createGameRequest.gameLength);
 
-//        if (userPlayWhite) {
-//            g.setWhite(user);
-//        } else {
-//            g.setBlack(user);
-//        }
-//        try {
-//            gameDao.updateGame(g);
-//        } catch (GameNotFoundException e) {
-//            e.printStackTrace();
-//            return createRespEntity(null, e.getMessage());
-//        }
-        CreateGameResponse resp = new CreateGameResponse(g.getId());
+        CreateGameResponse resp = new CreateGameResponse(g.getId(), createGameRequest.isWhite);
         return createRespEntity(resp, "");
     }
 
-    @Transactional
-    @RequestMapping(value = "/user-games/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<List<Game>> getGamesByUserId(@PathVariable(value = "userId") String userId) {
-        User user = userDao.getUserById(userId);
-        Session hsf = hibernateSessionFactory.getCurrentSession();
-        Query query = hsf.createQuery(
-                "from Game where author = :user");
-        query.setParameter("user", user);
-        List<Game> list = query.list();
-
-        return createRespEntity(list, "");
-    }
+//    @Transactional
+//    @RequestMapping(value = "/user-games/{userId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+//    public ResponseEntity<List<Game>> getGamesByUserId(@PathVariable(value = "userId") String userId) {
+//        User user = userDao.getUserById(userId);
+//        Session hsf = hibernateSessionFactory.getCurrentSession();
+//        Query query = hsf.createQuery(
+//                "from Game where author = :user");
+//        query.setParameter("user", user);
+//        List<Game> list = query.list();
+//
+//        return createRespEntity(list, "");
+//    }
 
     @Transactional
     @RequestMapping(value = "/connect/{gameId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
@@ -99,13 +92,13 @@ public class GameService implements IGameService {
         String userId = RequestInfo.userId2;
         User user = userDao.getUserById(userId);
 
+        boolean isWhite = true;
         if (g.getBlack() == null) {
             g.setBlack(user);
+            isWhite = false;
         }else{
             g.setWhite(user);
         };
-
-
 
         try {
             gameDao.updateGame(g);
@@ -113,43 +106,76 @@ public class GameService implements IGameService {
             e.printStackTrace();
         }
 
-//        Session hsf = hibernateSessionFactory.getCurrentSession();
-//        Query query = hsf.createQuery(
-//                "from Game where status = :status");
-//        query.setParameter("status", GameStatus.NEW);
-//        query.setMaxResults(1);
-//        List<Game> list = query.list();
-//        if (list.size() == 0){
-//            return createRespEntity(null, "");
-//        }
-
-        CreateGameResponse resp = new CreateGameResponse(g.getId());
+        CreateGameResponse resp = new CreateGameResponse(g.getId(), isWhite);
         return createRespEntity(resp, "");
     }
 
     @Transactional
     @RequestMapping(value = "/{gameId}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity<Game> getGame(@PathVariable(value = "gameId") int gameId) {
+    public ResponseEntity<GetGameResponse> getGame(@PathVariable(value = "gameId") int gameId) {
         Game g = gameDao.getGame(gameId);
-        return createRespEntity(g, "");
+        Turn lt = turnDao.getLastTurn(g);
+        String fen = null;
+        if (lt != null){
+            fen = lt.getFen();
+        }
+        GetGameResponse resp = new GetGameResponse(g.getId(), fen);
+        return createRespEntity(resp, "");
+    }
+
+    public static class GetGameResponse{
+        public int gameId;
+        public String fen;
+
+        public GetGameResponse(int gameId, String fen) {
+            this.gameId = gameId;
+            this.fen = fen;
+        }
+
+        public int getGameId() {
+            return gameId;
+        }
+
+        public void setGameId(int gameId) {
+            this.gameId = gameId;
+        }
+
+        public GetGameResponse() {
+        }
+
+        public String getFen() {
+            return fen;
+        }
+
+        public void setFen(String fen) {
+            this.fen = fen;
+        }
     }
 
     @Transactional
     @RequestMapping(value = "/turn", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> saveTurn(@RequestBody Turn turn) {
+    public ResponseEntity<Boolean> saveTurn(@RequestBody TurnRequest turnRequest) {
+        Game game = gameDao.getGame(turnRequest.gameId);
+        User user = userDao.getUserById(turnRequest.userId);
+
+        Turn turn = new Turn(game, user, new Date(), null, turnRequest.startPosition, turnRequest.endPosition, turnRequest.fen);
+
+        turnDao.saveTurn(turn);
+
+        if (turnRequest.isGameOver()){
+            game.setStatus(GameStatus.FINISHED);
+        }
+
         try {
-            gameDao.saveTurn(turn.gameId, turn.fen);
+            gameDao.updateGame(game);
         } catch (GameNotFoundException e) {
-            return createRespEntity(null, e.getMessage());
-        } catch (Exception e) {
-            return createRespEntity(null, e.getMessage());
+            e.printStackTrace();
         }
 
         return createRespEntity(true, "");
     }
 
     @Transactional
-//    @ResponseBody
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
     public ResponseEntity<Boolean> deleteGame(@PathVariable(value = "id") int id) {
         try {
@@ -191,13 +217,48 @@ public class GameService implements IGameService {
         }
     }
 
-    public static class Turn {
+    public static class TurnRequest {
 
         public int gameId;
+        public String userId;
+        public String startPosition;
+        public String endPosition;
         public String fen;
-        public String pgn;
+        public boolean gameOver;
 
-        public Turn() {
+        public boolean isGameOver() {
+            return gameOver;
+        }
+
+        public void setGameOver(boolean gameOver) {
+            this.gameOver = gameOver;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
+        public String getStartPosition() {
+            return startPosition;
+        }
+
+        public void setStartPosition(String startPosition) {
+            this.startPosition = startPosition;
+        }
+
+        public String getEndPosition() {
+            return endPosition;
+        }
+
+        public void setEndPosition(String endPosition) {
+            this.endPosition = endPosition;
+        }
+
+        public TurnRequest() {
         }
 
         public String getFen() {
@@ -206,14 +267,6 @@ public class GameService implements IGameService {
 
         public void setFen(String fen) {
             this.fen = fen;
-        }
-
-        public String getPgn() {
-            return pgn;
-        }
-
-        public void setPgn(String pgn) {
-            this.pgn = pgn;
         }
 
         public int getGameId() {
@@ -236,29 +289,37 @@ public class GameService implements IGameService {
             return isWhite;
         }
 
-        public CreateGameRequest setIsWhite(boolean isWhite) {
+        public void setIsWhite(boolean isWhite) {
             this.isWhite = isWhite;
-            return this;
         }
 
         public int getGameLength() {
             return gameLength;
         }
 
-        public CreateGameRequest setGameLength(int gameLength) {
+        public void setGameLength(int gameLength) {
             this.gameLength = gameLength;
-            return this;
         }
     }
 
     public static class CreateGameResponse {
 
         public int gameId;
+        public boolean isWhite;
 
         public CreateGameResponse() {}
 
-        public CreateGameResponse(int gameId) {
+        public CreateGameResponse(int gameId, boolean isWhite) {
             this.gameId = gameId;
+            this.isWhite  = isWhite;
+        }
+
+        public boolean isWhite() {
+            return isWhite;
+        }
+
+        public void setIsWhite(boolean isWhite) {
+            this.isWhite = isWhite;
         }
 
         public int getGameId() {

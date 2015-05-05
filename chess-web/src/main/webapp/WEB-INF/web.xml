@@ -5,7 +5,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/web-context.xml
+            /WEB-INF/web-context.xml,
             /WEB-INF/application-security.xml
         </param-value>
     </context-param>
@@ -22,7 +22,7 @@
 
     <servlet-mapping>
         <servlet-name>rest</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
     <listener>
@@ -36,7 +36,7 @@
 
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/</url-pattern>
     </filter-mapping>
 
 </web-app>

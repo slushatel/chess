@@ -26,7 +26,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user != null) {
 
             Set<GrantedAuthority> roles = new HashSet();
-            roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+
+            if (user.getUserAccessGroup()!=null && user.getUserAccessGroup().getIsAdmin() == true){
+                roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+            } else{
+                roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+            }
 
             UserDetails userDetails =
                     new org.springframework.security.core.userdetails.User(user.getEmail(),

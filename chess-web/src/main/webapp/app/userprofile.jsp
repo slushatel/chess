@@ -1,4 +1,6 @@
-﻿<!DOCTYPE HTML>
+﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page session="true" %>
+
 <html>
  <head>
   <meta name = "keywords" content="text/html" charset="utf-8"  >
@@ -21,7 +23,14 @@
          </td>
 
          <td  class="col2">
-         <h2>Username</h2>
+         <h2>
+             <c:if test="${pageContext.request.userPrincipal.name != null}">
+                 <h2>
+                     User : ${pageContext.request.userPrincipal.name} | <a
+                     href="javascript:formSubmit()"> Logout</a>
+                 </h2>
+             </c:if>
+         </h2>
          <form name ="userInfo" id = "userInfo" >
          <p><img src="images/images1.jpg" alt="UserPhoto"   class="rightimg">   </p>
          <p>Birth Date: <input name ="dateOfBirth" type="date" value="">  </p>
@@ -47,5 +56,18 @@
    <!-- </footer>
    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="app.js"></script>-->
+
+    <!-- For login user -->
+    <c:url value="/j_spring_security_logout" var="logoutUrl" />
+    <form action="${logoutUrl}" method="post" id="logoutForm">
+        <input type="hidden" name="${_csrf.parameterName}"
+               value="${_csrf.token}" />
+    </form>
+    <script>
+        function formSubmit() {
+            document.getElementById("logoutForm").submit();
+        }
+    </script>
+
   </body>
 </html>

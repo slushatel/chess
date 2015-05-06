@@ -14,7 +14,7 @@
      <th class="str0">  <h2>User Registration:</h2> </th>
     <tr>
     <td class="str1">
-    <form name ="registration" method = "POST" action = "userprofile.html" >
+    <form name ="registration" method = "POST" action = "userprofile.jsp" >
     <ul>
       <li >
           <label   for="username">Your Name</label>
@@ -40,7 +40,7 @@
     <td class="str2">
     <span>For existing users:</span>
                   <br>     If You already have a login and password, please make login
-                  <a href="login.html" target="_blank">
+                  <a href="login.jsp" target="_blank">
                     <button   type="button" name="ref-login" value="login" > Login </button>
 
   </td>

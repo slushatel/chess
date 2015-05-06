@@ -4,15 +4,12 @@ import com.javamonkeys.dao.user.*;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.nio.charset.Charset;
-import java.util.Date;
 
-@Service("userService")
 @RestController
 @RequestMapping("/api/users")
 public class UserService implements IUserService {

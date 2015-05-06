@@ -1,17 +1,26 @@
 package com.javamonkeys.controller;
 
+import com.javamonkeys.api.IUserService;
+import com.javamonkeys.dao.user.IncorrectUserCredentialsException;
+import com.javamonkeys.dao.user.UserAlreadyExistException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.inject.Inject;
+
 @Controller
 public class MVCController {
+
+    @Inject
+    IUserService userService;
 
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public ModelAndView index() {
@@ -48,6 +57,26 @@ public class MVCController {
 
         return model;
 
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public ModelAndView register(@RequestHeader(value="Authorization") String authorization) {
+
+        ModelAndView model = new ModelAndView();
+
+        try {
+            userService.register(authorization);
+            model.addObject("msg", "You have been successfully registered! Please, login!");
+            model.setViewName("login");
+        } catch (UserAlreadyExistException e){
+            model.addObject("error", "User with this email already exists!");
+            model.setViewName("registration");
+        } catch (IncorrectUserCredentialsException e){
+            model.addObject("error", "Incorrect user credentials!");
+            model.setViewName("registration");
+        }
+
+        return model;
     }
 
     @RequestMapping(value = "/userprofile", method = RequestMethod.GET)

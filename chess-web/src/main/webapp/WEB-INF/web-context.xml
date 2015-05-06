@@ -18,6 +18,32 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <context:component-scan base-package="com.javamonkeys.api"/>
+    <context:component-scan base-package="com.javamonkeys.api, com.javamonkeys.controller" />
+
+    <mvc:resources mapping="/images/**" location="/app/images/" />
+    <mvc:resources mapping="/scripts/**" location="/app/scripts/" />
+    <mvc:resources mapping="/styles/**" location="/app/styles/" />
+    <mvc:resources mapping="/bower_components/**" location="/app/bower_components/" />
+    <mvc:resources mapping="/app/index*" location="/app/" />
+
+    <!-- for usage *.html views -->
+    <bean class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location">
+            <value>/WEB-INF/spring-views.xml</value>
+        </property>
+        <property name="order" value="0"/>
+    </bean>
+
+    <!-- for other views -->
+    <bean
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/app/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+        <property name="order" value="1"/>
+    </bean>
 
 </beans>

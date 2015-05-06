@@ -9,9 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -19,6 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Inject
     IUserDao userDao;
 
+    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         User user = userDao.getUserByEmail(email);
@@ -26,7 +26,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user != null) {
 
             Set<GrantedAuthority> roles = new HashSet();
-            roles.add(new SimpleGrantedAuthority(UserRoleEnum.ROLE_USER.name()));
+
+            if (user.getUserAccessGroup()!=null && user.getUserAccessGroup().getIsAdmin() == true){
+                roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+            } else{
+                roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+            }
 
             UserDetails userDetails =
                     new org.springframework.security.core.userdetails.User(user.getEmail(),

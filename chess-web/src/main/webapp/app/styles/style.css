@@ -25,7 +25,7 @@
    }
 
    .col {
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(150, 150, 150, 0.5);
     }
 
     .rightimg  {
@@ -67,8 +67,7 @@
     }
    body {
    color: maroon;
-   background-image: url(../images/backgr11.jpg);
-   background-attachment: scroll;
+   /*background:  url(backgr11.jpg) scroll center no-repeat;*/
    margin: 10px 10px 10px 10px; /* top, rigth, button, left*/
    /*border: 1px solid #666;
    padding: 10 10 10 10;    */
@@ -76,31 +75,41 @@
 
    table {
     font-family: Calibri, sans-serif;
-    border: 2px solid white;
+    border: 1px outset rgb(255,255,255);
     border-collapse: separate;
     width: 800px;
     border-spacing: 5px 5px;
     border-radius: 5px ;
+    padding: 5px;
     /*background-image: url(backgr11.jpg); */
   }
 
    td, th, td {
     /*font-family: Georgia, 'Times New Roman', Times, serif; */
-    padding: 10px;
-    border: 2px solid white;
+    padding: 5px;
+    border: 1px inset rgb(255,255,255);
     vertical-align: top;
     color: black;
     border-radius: 5px ;
+    margin: 10px 10px 10px 10px;
    }
 
-   h1 {
+   td:hover {
+    border: 1px outset rgb(255,255,255);
+   }
+
+    .heads span {
     font-family: Calibri, sans-serif;
-    text-align: center;
+    font-size: x-large;
+    border-radius: 5px;
+    padding:  10px 10px 10px 10px;
+    background: rgba(225, 225, 225, 0.7);
    }
 
-   h2 {
+   body h2 {
    font-family: Calibri, sans-serif;
-   text-align: center;
+   text-align: left;
+   padding:  0px 10px 0px 10px;
    }
 
    p {
@@ -109,18 +118,22 @@
    }
 
    button, input {
-   border-radius: 4px ;
+   border-radius: 5px ;
    background: rgb(255, 255, 255);
    height: auto;
    width: auto;
    color: rgb(153, 51, 0); /*font color*/
    font-weight: solid;
    padding: 4px 5px 4px 5px;
+   border: 1px inset rgb(255,255,255);
    /*border: 5px double rgb(0,0,255); /*make color and width of button border*/
    }
+
    button:hover  {  /*changeing when mousecursor is on this element*/
     font-weight: bold;
+    cursor: pointer;
    }
+
    input:hover  {
     font-weight: bold;
    }
@@ -134,15 +147,13 @@
    font-family: 'Century Gothic', 'Apple Gothic', sans-serif;
    font-size: large;
    text-decoration: none;
+   color: rgb(10,10,50);
    /*font-style: oblique;  */
-   }
-   a:visited  {
-    color: rgb(128,128,128);
    }
 
    a:hover  {
    text-decoration: none;
-    color: white;
+    color: rgb(10,10,255);
     font-weight: bold;
     }
 

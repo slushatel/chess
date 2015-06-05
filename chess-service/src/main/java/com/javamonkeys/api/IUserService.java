@@ -1,14 +1,15 @@
 package com.javamonkeys.api;
 
 import com.javamonkeys.dao.user.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Date;
 
 public interface IUserService {
 
-    public void register(String authorization) throws UserAlreadyExistException, IncorrectUserCredentialsException;
+    public ResponseEntity register(String authorization);
 
-    public String login(String authorization) throws IncorrectUserCredentialsException;
+    public ResponseEntity<String> login(String authorization);
 
     public void logout(String token);
 

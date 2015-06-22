@@ -20,52 +20,56 @@ public class UserService implements IUserService {
 
     @Transactional
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<String> register(@RequestHeader(value = "Authorization", required=false) String authorization) {
+    public ResponseEntity register(@RequestHeader(value = "Authorization", required=false) String authorization) {
 
         try {
             String[] credentials = getCredentialsFromBase64String(authorization);
             userDao.register(credentials[0], credentials[1]);
-            return new ResponseEntity<String>(HttpStatus.CREATED);
+            return new ResponseEntity(HttpStatus.CREATED);
         } catch (IllegalArgumentException | UserAlreadyExistException e) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ResponseEntity<String> login(@RequestHeader(value = "Authorization", required=false) String authorization) {
+    public ResponseEntity<User> login(@RequestHeader(value = "Authorization", required=false) String authorization) {
 
         try {
             String[] credentials = getCredentialsFromBase64String(authorization);
-            String token = userDao.login(credentials[0], credentials[1]);
-            return new ResponseEntity<String>(token, HttpStatus.OK);
+            User currentUser = userDao.login(credentials[0], credentials[1]);
+            return new ResponseEntity<User>(currentUser, HttpStatus.OK);
         } catch (IllegalArgumentException | IncorrectUserCredentialsException e) {
-            return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void logout(@RequestHeader("token") String token) {
-        User currentUser = userDao.getUserByToken(token);
+    public void logout(@RequestHeader("id") String id) {
+        User currentUser = userDao.getUserById(id);
         userDao.logout(currentUser);
     }
 
     @Transactional
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public
-    @ResponseBody
-    User getUser(@PathVariable("id") String id) {
+    public @ResponseBody User getUser(@PathVariable("id") String id) {
         return userDao.getUserById(id);
     }
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable("id") String id) throws UserNotFoundException {
-        userDao.deleteUser(userDao.getUserById(id));
+    public ResponseEntity deleteUser(@PathVariable("id") String id) {
+
+        try {
+            userDao.deleteUser(userDao.getUserById(id));
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (UserNotFoundException e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Transactional

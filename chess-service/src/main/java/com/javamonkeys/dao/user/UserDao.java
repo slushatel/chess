@@ -264,7 +264,7 @@ public class UserDao implements IUserDao {
      * @param password user password
      * @throws IncorrectUserCredentialsException if passed incorrect email or password data
      */
-    public String login(String email, String password) throws IncorrectUserCredentialsException {
+    public User login(String email, String password) throws IncorrectUserCredentialsException {
 
         if (email == null || password == null)
             throw new IncorrectUserCredentialsException();
@@ -278,7 +278,7 @@ public class UserDao implements IUserDao {
         currentUser.setToken(newToken);
         persist(currentUser);
 
-        return newToken;
+        return currentUser;
     }
 
     /**

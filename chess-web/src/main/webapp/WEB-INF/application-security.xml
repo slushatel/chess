@@ -14,6 +14,7 @@
     <http pattern="/favicon.ico" security="none"/>
     <http pattern="/gametest/**" security="none"/>
     <http pattern="/test/**" security="none"/>
+    <http pattern="/api/**" security="none"/>  <!-- TODO: how to process /api requests? -->
 
     <http auto-config="true" use-expressions="true">
 

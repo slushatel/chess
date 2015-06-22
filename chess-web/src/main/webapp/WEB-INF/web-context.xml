@@ -26,6 +26,8 @@
     <mvc:resources mapping="/app/index*" location="/app/" />
     <mvc:resources mapping="/bower_components/**" location="/app/bower_components/" />
     <mvc:resources mapping="/favicon.ico" location="/app/" />
+    <mvc:resources mapping="/gametest/**" location="/gametest/" />
+    <mvc:resources mapping="/test/**" location="/test/" />
 
     <!-- for usage *.html views -->
     <bean class="org.springframework.web.servlet.view.XmlViewResolver">

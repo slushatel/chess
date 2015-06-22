@@ -24,7 +24,7 @@ public interface IUserDao {
 
     public void deleteUserAccessGroup(UserAccessGroup userAccessGroup) throws UserAccessGroupNotFoundException;
 
-    public String login(String email, String password) throws IncorrectUserCredentialsException;
+    public User login(String email, String password) throws IncorrectUserCredentialsException;
 
     public void logout(User user);
 

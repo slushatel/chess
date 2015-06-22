@@ -23,7 +23,7 @@ import javax.inject.Inject;
 
 
 @RestController
-@RequestMapping("/game")
+@RequestMapping("/api/game")
 public class GameService implements IGameService {
 
     @Inject

@@ -1,5 +1,6 @@
 package com.javamonkeys.dao.user;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -529,7 +530,13 @@ public class UserDaoTest {
                 fail("User with email: " + email + " was not found. Check test data.");
 
             String oldToken = currentUserByEmail.getToken();
-            String newToken = userDao.login(email, password);
+
+            User currentUser = userDao.login(email, password);
+            assertNotNull(currentUser);
+
+            assertEquals(email, currentUser.getEmail());
+
+            String newToken = currentUser.getToken();
 
             assertNotNull(newToken);
             assertNotEquals(oldToken, newToken);

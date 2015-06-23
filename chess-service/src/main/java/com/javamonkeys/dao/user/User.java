@@ -164,6 +164,7 @@ public class User {
     // TODO - refactor usages / delete method
     public void loadValues(User sourceUser){
         if (sourceUser != null) {
+            setName(sourceUser.getName());
             setBirthDate(sourceUser.getBirthDate());
             setUserAccessGroup(sourceUser.getUserAccessGroup());
             setPassword(sourceUser.getPassword());

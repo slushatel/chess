@@ -9,12 +9,12 @@ public interface IUserService {
 
     public ResponseEntity<User> login(String authorization);
 
-    public void logout(String id);
+    public ResponseEntity logout(String id);
 
-    public User getUser(String id);
+    public ResponseEntity getUser(String id);
 
-    public ResponseEntity deleteUser(String id) throws UserNotFoundException;
+    public ResponseEntity deleteUser(String id);
 
-    public void updateUser(String id, User sourceUser) throws UserNotFoundException;
+    public ResponseEntity updateUser(String id, User sourceUser);
 
 }

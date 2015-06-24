@@ -31,7 +31,7 @@ public class User {
     @JoinColumn(name = "userAccessGroup_id")
     private UserAccessGroup userAccessGroup;
 
-    protected User(){}
+    public User(){}
 
     public User(String email, String password){
         setEmail(email);

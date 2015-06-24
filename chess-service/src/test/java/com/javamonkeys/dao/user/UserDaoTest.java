@@ -1,6 +1,5 @@
 package com.javamonkeys.dao.user;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

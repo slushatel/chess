@@ -1,6 +1,6 @@
 
 var orientation;
-var gameUrl = "http://127.0.0.1:8555/api/game";
+var gameUrl = "http://localhost:8555/api/game";
 var userId;
 var gameId = null;
 var board;

@@ -46,7 +46,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public ResponseEntity logout(@RequestHeader("id") String id) {
+    public ResponseEntity logout(@RequestHeader("id") Integer id) {
         User currentUser = userDao.getUserById(id);
         userDao.logout(currentUser);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -54,13 +54,13 @@ public class UserService implements IUserService {
 
     @Transactional
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    public ResponseEntity getUser(@PathVariable("id") String id) {
-        return new ResponseEntity(userDao.getUserById(id), HttpStatus.OK);
+    public ResponseEntity<User> getUser(@PathVariable("id") Integer id) {
+        return new ResponseEntity<User>(userDao.getUserById(id), HttpStatus.OK);
     }
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteUser(@PathVariable("id") String id) {
+    public ResponseEntity deleteUser(@PathVariable("id") Integer id) {
 
         try {
             userDao.deleteUser(userDao.getUserById(id));
@@ -72,7 +72,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity updateUser(@PathVariable("id") String id, @RequestBody User sourceUser) {
+    public ResponseEntity updateUser(@PathVariable("id") Integer id, @RequestBody User sourceUser) {
 
         User currentUser = userDao.getUserById(id);
         if (currentUser == null)

@@ -181,7 +181,7 @@ public class UserServiceTest {
         ResponseEntity<User> responseEntity = restTemplate.exchange(baseUrl + "/api/users/login", HttpMethod.GET, entity, User.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
-        assertEquals("Filippov@javamonkeys.com", responseEntity.getBody().getEmail());
+        assertEquals("filippov@javamonkeys.com", responseEntity.getBody().getEmail());
     }
 
     @Test
@@ -261,7 +261,7 @@ public class UserServiceTest {
 
         // LOGOUT
         headers = new HttpHeaders();
-        headers.add("id", beforeUser.getId());
+        headers.add("id", Integer.toString(beforeUser.getId()));
         entity = new HttpEntity<String>(headers);
 
         ResponseEntity responseEntity = restTemplate.exchange(baseUrl + "/api/users/logout", HttpMethod.POST, entity, User.class);

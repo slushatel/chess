@@ -9,12 +9,12 @@ public interface IUserService {
 
     public ResponseEntity<User> login(String authorization);
 
-    public ResponseEntity logout(String id);
+    public ResponseEntity logout(Integer id);
 
-    public ResponseEntity getUser(String id);
+    public ResponseEntity<User> getUser(Integer id);
 
-    public ResponseEntity deleteUser(String id);
+    public ResponseEntity deleteUser(Integer id);
 
-    public ResponseEntity updateUser(String id, User sourceUser);
+    public ResponseEntity updateUser(Integer id, User sourceUser);
 
 }

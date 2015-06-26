@@ -64,7 +64,7 @@ public class GameService implements IGameService {
     @RequestMapping(value = "/new-game", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     public ResponseEntity<CreateGameResponse> createGame(@RequestBody CreateGameRequest createGameRequest) {
         String userId = RequestInfo.userId;
-        User user = userDao.getUserById(userId);
+        User user = userDao.getUserById(Integer.parseInt(userId));
         Game g = gameDao.createGame(user, createGameRequest.isWhite, createGameRequest.gameLength);
 
         CreateGameResponse resp = new CreateGameResponse(g.getId(), createGameRequest.isWhite);
@@ -90,7 +90,7 @@ public class GameService implements IGameService {
         Game g = gameDao.getGame(gameId);
 
         String userId = RequestInfo.userId2;
-        User user = userDao.getUserById(userId);
+        User user = userDao.getUserById(Integer.parseInt(userId));
 
         boolean isWhite = true;
         if (g.getBlack() == null) {
@@ -156,7 +156,7 @@ public class GameService implements IGameService {
     @RequestMapping(value = "/turn", method = RequestMethod.POST)
     public ResponseEntity<Boolean> saveTurn(@RequestBody TurnRequest turnRequest) {
         Game game = gameDao.getGame(turnRequest.gameId);
-        User user = userDao.getUserById(turnRequest.userId);
+        User user = userDao.getUserById(Integer.parseInt(turnRequest.userId));
 
         Turn turn = new Turn(game, user, new Date(), null, turnRequest.startPosition, turnRequest.endPosition, turnRequest.fen);
 
@@ -177,7 +177,7 @@ public class GameService implements IGameService {
 
     @Transactional
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
-    public ResponseEntity<Boolean> deleteGame(@PathVariable(value = "id") int id) {
+    public ResponseEntity<Boolean> deleteGame(@PathVariable(value = "id") Integer id) {
         try {
             gameDao.deleteGame(id);
         } catch (GameNotFoundException e) {

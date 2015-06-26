@@ -1,6 +1,7 @@
 package com.javamonkeys.dao.user;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "UserAccessGroups")
@@ -9,13 +10,16 @@ public class UserAccessGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "isadmin")
     private boolean isAdmin;
+
+    @OneToMany(mappedBy="userAccessGroup")
+    private Set<User> users;
 
     protected UserAccessGroup(){}
 
@@ -28,7 +32,7 @@ public class UserAccessGroup {
      * Get user access group ID.
      * @return current user access group ID
      */
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -36,7 +40,7 @@ public class UserAccessGroup {
      * Set user access group ID
      * @param id new user access group ID
      */
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

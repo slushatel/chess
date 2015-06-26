@@ -1,5 +1,8 @@
 package com.javamonkeys.dao.user;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -10,9 +13,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private String id;
+    private Integer id;
 
-    @Column(name = "email", unique=true)
+    @Column(name = "email")
     private String email;
 
     @Column(name = "password")
@@ -27,7 +30,8 @@ public class User {
     @Column(name = "token")
     private String token;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "userAccessGroup_id")
     private UserAccessGroup userAccessGroup;
 
@@ -61,7 +65,7 @@ public class User {
      * Get user ID.
      * @return current user ID
      */
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -69,7 +73,7 @@ public class User {
      * Set user ID.
      * @param id new user ID
      */
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -156,7 +156,10 @@ public class GameService implements IGameService {
     @RequestMapping(value = "/turn", method = RequestMethod.POST)
     public ResponseEntity<Boolean> saveTurn(@RequestBody TurnRequest turnRequest) {
         Game game = gameDao.getGame(turnRequest.gameId);
-        User user = userDao.getUserById(Integer.parseInt(turnRequest.userId));
+        User user = null;
+        if (turnRequest.userId != null) {
+            user = userDao.getUserById(Integer.parseInt(turnRequest.userId));
+        }
 
         Turn turn = new Turn(game, user, new Date(), null, turnRequest.startPosition, turnRequest.endPosition, turnRequest.fen);
 

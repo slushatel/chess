@@ -1,7 +1,7 @@
 package com.javamonkeys.tests;
 
 import com.javamonkeys.dao.user.User;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
@@ -18,11 +18,11 @@ public class UserServiceTest {
     private static final String baseUrl = "http://localhost:8555";
     private CustomResponseErrorHandler customResponseErrorHandler = new CustomResponseErrorHandler();
 
-    @Before
-    public void init(){
+    @BeforeClass
+    public static void init(){
 
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setErrorHandler(customResponseErrorHandler);
+        restTemplate.setErrorHandler(new CustomResponseErrorHandler());
 
         // 1. ADD user "Filippov@javamonkeys.com", pass: 12345 if not exist
 

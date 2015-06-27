@@ -1,7 +1,6 @@
 package com.javamonkeys.api;
 
 import com.javamonkeys.dao.user.*;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.nio.charset.Charset;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/users")
@@ -93,7 +93,7 @@ public class UserService implements IUserService {
 
         if (authorization != null && authorization.startsWith("Basic")) {
             String base64Credentials = authorization.substring("Basic".length()).trim();
-            byte[] decodedData = Base64.decode(base64Credentials);
+            byte[] decodedData = Base64.getDecoder().decode(base64Credentials);
             if (decodedData != null) {
                 String decodedCredentials = new String(decodedData, Charset.forName("UTF-8"));
                 return  decodedCredentials.split(":", 2);

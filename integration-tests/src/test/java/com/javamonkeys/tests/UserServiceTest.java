@@ -181,7 +181,7 @@ public class UserServiceTest {
         ResponseEntity<User> responseEntity = restTemplate.exchange(baseUrl + "/api/users/login", HttpMethod.GET, entity, User.class);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertNotNull(responseEntity.getBody());
-        assertEquals("filippov@javamonkeys.com", responseEntity.getBody().getEmail());
+        assertEquals("Filippov@javamonkeys.com".toLowerCase(), responseEntity.getBody().getEmail().toLowerCase());
     }
 
     @Test

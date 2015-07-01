@@ -39,7 +39,7 @@ public class MVCController {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
-            model.addObject("error", "Invalid username and password!");
+            model.addObject("error", "Invalid username or password!");
         }
 
         if (logout != null) {

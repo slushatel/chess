@@ -3,6 +3,8 @@ package com.javamonkeys.controller;
 import com.javamonkeys.api.IUserService;
 import com.javamonkeys.dao.user.IncorrectUserCredentialsException;
 import com.javamonkeys.dao.user.UserAlreadyExistException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +39,7 @@ public class MVCController {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
-            model.addObject("error", "Invalid username and password!");
+            model.addObject("error", "Invalid username or password!");
         }
 
         if (logout != null) {
@@ -64,15 +66,14 @@ public class MVCController {
 
         ModelAndView model = new ModelAndView();
 
-        try {
-            userService.register(authorization);
+
+        ResponseEntity responseEntity = userService.register(authorization);
+        if (responseEntity.getStatusCode() == HttpStatus.CREATED) {
             model.addObject("msg", "You have been successfully registered! Please, login!");
             model.setViewName("login");
-        } catch (UserAlreadyExistException e){
-            model.addObject("error", "User with this email already exists!");
-            model.setViewName("registration");
-        } catch (IncorrectUserCredentialsException e){
-            model.addObject("error", "Incorrect user credentials!");
+        } else {
+
+            model.addObject("error", "Incorrect user credentials or user with this email already exists!");
             model.setViewName("registration");
         }
 

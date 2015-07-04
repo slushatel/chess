@@ -196,7 +196,7 @@ public class UserDaoTest {
     @Test
     public void testGetUserById(){
 
-        String id = "3";
+        int id = 3;
         String email = "filippov@javamonkeys.com";
         String password = "12345";
 
@@ -211,7 +211,7 @@ public class UserDaoTest {
      * User doesn't exist in DB. */
     @Test
     public void testGetUserByIdNullIfNotFound() {
-        User currentUser = userDao.getUserById("-1");
+        User currentUser = userDao.getUserById(-1);
         assertNull(currentUser);
     }
 
@@ -329,7 +329,7 @@ public class UserDaoTest {
             Date newBirthDate = new Date();
             String newToken = "new token";
             String newName = "John Doe";
-            UserAccessGroup newGroup = userDao.getUserAccessGroup("admin");
+            UserAccessGroup newGroup = userDao.getUserAccessGroupByName("admin");
 
             //assertNotEquals(newEmail, user.getEmail());
             assertNotEquals(newPassword, user.getPassword());
@@ -397,7 +397,7 @@ public class UserDaoTest {
             UserAccessGroup userAccessGroup = userDao.createUserAccessGroup(name, isAdmin);
             assertNotNull("Return value (userAccessGroup) shouldn't be null!", userAccessGroup);
 
-            UserAccessGroup currentGroup = userDao.getUserAccessGroup(name);
+            UserAccessGroup currentGroup = userDao.getUserAccessGroupByName(name);
             assertEquals("Incorrect name for new user access group", name, currentGroup.getName());
             assertEquals("Incorrect IsAdmin for new user access group", isAdmin, currentGroup.getIsAdmin());
 
@@ -411,7 +411,7 @@ public class UserDaoTest {
             UserAccessGroup userAccessGroup = userDao.createUserAccessGroup(name, isAdmin);
             assertNotNull("Return value (userAccessGroup) shouldn't be null!", userAccessGroup);
 
-            UserAccessGroup currentGroup = userDao.getUserAccessGroup(name);
+            UserAccessGroup currentGroup = userDao.getUserAccessGroupByName(name);
             assertEquals("Incorrect name for new user access group", name, currentGroup.getName());
             assertEquals("Incorrect IsAdmin for new user access group", isAdmin, currentGroup.getIsAdmin());
 
@@ -454,7 +454,7 @@ public class UserDaoTest {
 
         String testName = "admin";
 
-        UserAccessGroup userAccessGroup = userDao.getUserAccessGroup(testName);
+        UserAccessGroup userAccessGroup = userDao.getUserAccessGroupByName(testName);
         assertNotNull("Return value (userAccessGroup) shouldn't be null!", userAccessGroup);
         assertEquals("Incorrect user access group", testName, userAccessGroup.getName());
     }
@@ -463,7 +463,7 @@ public class UserDaoTest {
      * Group doesn't exist in DB. */
     @Test
     public void testGetUserAccessGroupNullIfNotFound() {
-        UserAccessGroup currentGroup = userDao.getUserAccessGroup("IllegalNameOfGroup");
+        UserAccessGroup currentGroup = userDao.getUserAccessGroupByName("IllegalNameOfGroup");
         assertNull(currentGroup);
     }
 
@@ -471,7 +471,7 @@ public class UserDaoTest {
      * Null arguments passed */
     @Test
     public void testGetUserAccessGroupTestForNullArguments() {
-        UserAccessGroup currentGroup = userDao.getUserAccessGroup(null);
+        UserAccessGroup currentGroup = userDao.getUserAccessGroupByName(null);
         assertNull(currentGroup);
     }
 
@@ -483,10 +483,10 @@ public class UserDaoTest {
 
         String testName = "groupForDelete";
         try {
-            UserAccessGroup group = userDao.getUserAccessGroup(testName);
+            UserAccessGroup group = userDao.getUserAccessGroupByName(testName);
             userDao.deleteUserAccessGroup(group);
 
-            UserAccessGroup currentGroup = userDao.getUserAccessGroup(testName);
+            UserAccessGroup currentGroup = userDao.getUserAccessGroupByName(testName);
             assertNull(currentGroup);
         } catch (UserAccessGroupNotFoundException e) {
             fail(String.format("User access group with name %s was not found", testName));
@@ -529,7 +529,13 @@ public class UserDaoTest {
                 fail("User with email: " + email + " was not found. Check test data.");
 
             String oldToken = currentUserByEmail.getToken();
-            String newToken = userDao.login(email, password);
+
+            User currentUser = userDao.login(email, password);
+            assertNotNull(currentUser);
+
+            assertEquals(email, currentUser.getEmail());
+
+            String newToken = currentUser.getToken();
 
             assertNotNull(newToken);
             assertNotEquals(oldToken, newToken);

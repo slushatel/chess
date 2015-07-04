@@ -1,14 +1,15 @@
 package com.javamonkeys.api;
 
 import com.javamonkeys.dao.user.*;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.nio.charset.Charset;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/users")
@@ -19,94 +20,89 @@ public class UserService implements IUserService {
 
     @Transactional
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void register(@RequestHeader(value="Authorization") String authorization) throws UserAlreadyExistException, IncorrectUserCredentialsException {
+    public ResponseEntity register(@RequestHeader(value = "Authorization", required=false) String authorization) {
 
-        if(authorization == null)
-            throw new IncorrectUserCredentialsException();
-
-        String[] credentials = getCredentialsFromBase64String(authorization);
-        userDao.register(credentials[0], credentials[1]);
+        try {
+            String[] credentials = getCredentialsFromBase64String(authorization);
+            userDao.register(credentials[0], credentials[1]);
+            return new ResponseEntity(HttpStatus.CREATED);
+        } catch (IllegalArgumentException | UserAlreadyExistException e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Transactional
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody String login(@RequestHeader(value="Authorization") String authorization) throws IncorrectUserCredentialsException {
+    @RequestMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    public ResponseEntity<User> login(@RequestHeader(value = "Authorization", required=false) String authorization) {
 
-        if(authorization == null)
-            throw new IncorrectUserCredentialsException();
-
-        String[] credentials = getCredentialsFromBase64String(authorization);
-        return userDao.login(credentials[0], credentials[1]);
+        try {
+            String[] credentials = getCredentialsFromBase64String(authorization);
+            User currentUser = userDao.login(credentials[0], credentials[1]);
+            return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+        } catch (IllegalArgumentException | IncorrectUserCredentialsException e) {
+            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Transactional
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void logout(@RequestHeader("token") String token) {
-        User currentUser = userDao.getUserByToken(token);
+    public ResponseEntity logout(@RequestHeader("id") Integer id) {
+        User currentUser = userDao.getUserById(id);
         userDao.logout(currentUser);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @Transactional
     @RequestMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody User getUser(@PathVariable("id") String id) {
-        return userDao.getUserById(id);
+    public ResponseEntity<User> getUser(@PathVariable("id") Integer id) {
+        return new ResponseEntity<User>(userDao.getUserById(id), HttpStatus.OK);
     }
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable("id") String id) throws UserNotFoundException {
-        userDao.deleteUser(userDao.getUserById(id));
+    public ResponseEntity deleteUser(@PathVariable("id") Integer id) {
+
+        try {
+            userDao.deleteUser(userDao.getUserById(id));
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (UserNotFoundException | IllegalArgumentException e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
     @Transactional
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void updateUser(@PathVariable("id") String id, @RequestBody User sourceUser) throws UserNotFoundException {
+    public ResponseEntity updateUser(@PathVariable("id") Integer id, @RequestBody User sourceUser) {
 
         User currentUser = userDao.getUserById(id);
         if (currentUser == null)
-            throw new UserNotFoundException();
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
 
         currentUser.loadValues(sourceUser);
-        userDao.updateUser(currentUser);
+        try {
+            userDao.updateUser(currentUser);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        } catch (UserNotFoundException e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
-    // Convert a IncorrectUserCredentialsException exception to an HTTP Status code
-    @ResponseStatus(value= HttpStatus.NOT_FOUND, reason="User with this credentials was not found!")
-    @ExceptionHandler(IncorrectUserCredentialsException.class)
-    public void IncorrectUserCredentialsExceptionHandler() {}
-
-    // Convert a UserAlreadyExistException exception to an HTTP Status code
-    @ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="User with this credentials already exists!")
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public void UserAlreadyExistExceptionHandler() {}
-
-    // Convert a UserNotFoundException exception to an HTTP Status code
-    @ResponseStatus(value= HttpStatus.NOT_FOUND, reason="User was not found!")
-    @ExceptionHandler(UserNotFoundException.class)
-    public void UserNotFoundExceptionHandler() {}
-
-    private String[] getCredentialsFromBase64String(String authorization) {
-
-        String[] credentials = new String[]{"",""};
+    // Decode string credentials from base64
+    // return array of 2 elements (credentials) if decoding was successful, or empty array - otherwise
+    private String[] getCredentialsFromBase64String(String authorization) throws IllegalArgumentException {
 
         if (authorization != null && authorization.startsWith("Basic")) {
             String base64Credentials = authorization.substring("Basic".length()).trim();
-            String decodedCredentials = new String(Base64.decode(base64Credentials), Charset.forName("UTF-8"));
-            credentials = decodedCredentials.split(":", 2);
+            byte[] decodedData = Base64.getDecoder().decode(base64Credentials);
+            if (decodedData != null) {
+                String decodedCredentials = new String(decodedData, Charset.forName("UTF-8"));
+                return  decodedCredentials.split(":", 2);
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } else {
+            throw new IllegalArgumentException();
         }
-
-        return credentials;
     }
 
-    // TEST METHOD FOR ENCODE / DECODE DATA
-    @RequestMapping(value = "/GetBase64", method = RequestMethod.POST)
-    public String GetBase64(@RequestParam("email") String email, @RequestParam("password") String password){
-        return Base64.encode(("" + email + ":" + password).getBytes());
-    }
 }

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public interface IUserDao {
 
-    public User getUserById(String id);
+    public User getUserById(Integer id);
 
     public User getUserByEmail(String email);
 
@@ -18,13 +18,15 @@ public interface IUserDao {
 
     public void updateUser(User user) throws UserNotFoundException;
 
-    public UserAccessGroup getUserAccessGroup(String name);
+    public UserAccessGroup getUserAccessGroupById(Integer id);
+
+    public UserAccessGroup getUserAccessGroupByName(String name);
 
     public UserAccessGroup createUserAccessGroup(String name, boolean isAdmin) throws UserAccessGroupAlreadyExistException;
 
     public void deleteUserAccessGroup(UserAccessGroup userAccessGroup) throws UserAccessGroupNotFoundException;
 
-    public String login(String email, String password) throws IncorrectUserCredentialsException;
+    public User login(String email, String password) throws IncorrectUserCredentialsException;
 
     public void logout(User user);
 

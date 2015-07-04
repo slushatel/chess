@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -47,12 +48,18 @@ public class UserDao implements IUserDao {
      * @param id user id
      * @return user
      */
-    public User getUserById(String id) {
+    public User getUserById(Integer id) {
 
         Query query = getSession().createQuery("from User where id = :id");
         query.setParameter("id", id);
 
-        return (User) query.uniqueResult();
+        List result = query.list();
+
+        if (result.isEmpty()) {
+            return null;
+        } else {
+            return (User)result.get(0);
+        }
     }
 
     /**
@@ -66,10 +73,16 @@ public class UserDao implements IUserDao {
         if (email==null)
             return null;
 
-        Query query = getSession().createQuery("from User where email = :email");
-        query.setParameter("email", email);
+        Query query = getSession().createQuery("from User where LOWER(email) = :email");
+        query.setParameter("email", email.toLowerCase());
 
-        return (User) query.uniqueResult();
+        List result = query.list();
+
+        if (result.isEmpty()) {
+            return null;
+        } else {
+            return (User)result.get(0);
+        }
     }
 
     /**
@@ -86,7 +99,13 @@ public class UserDao implements IUserDao {
         Query query = getSession().createQuery("from User where token = :token");
         query.setParameter("token", token);
 
-        return (User) query.uniqueResult();
+        List result = query.list();
+
+        if (result.isEmpty()) {
+            return null;
+        } else {
+            return (User)result.get(0);
+        }
     }
 
     /**
@@ -196,12 +215,36 @@ public class UserDao implements IUserDao {
     }
 
     /**
+     * Find user access group by id.
+     *
+     * @param id group id
+     * @return user access group
+     */
+    public UserAccessGroup getUserAccessGroupById(Integer id) {
+
+        if (id == null)
+            return null;
+
+        Query query = getSession().createQuery("from UserAccessGroup where id = :id");
+        query.setParameter("id", id);
+
+        List result = query.list();
+
+        if (result.isEmpty()) {
+            return null;
+        } else {
+            return (UserAccessGroup)result.get(0);
+        }
+
+    }
+
+    /**
      * Find user access group by name.
      *
      * @param name name of group
      * @return user access group
      */
-    public UserAccessGroup getUserAccessGroup(String name) {
+    public UserAccessGroup getUserAccessGroupByName(String name) {
 
         if (name==null)
             return null;
@@ -209,7 +252,13 @@ public class UserDao implements IUserDao {
         Query query = getSession().createQuery("from UserAccessGroup where name = :name");
         query.setParameter("name", name);
 
-        return (UserAccessGroup) query.uniqueResult();
+        List result = query.list();
+
+        if (result.isEmpty()) {
+            return null;
+        } else {
+            return (UserAccessGroup)result.get(0);
+        }
 
     }
 
@@ -228,7 +277,7 @@ public class UserDao implements IUserDao {
         if (name==null)
             throw new IllegalArgumentException("argument \"name\": value " + name + " is not valid");
 
-        UserAccessGroup currentGroup = getUserAccessGroup(name);
+        UserAccessGroup currentGroup = getUserAccessGroupByName(name);
         if (currentGroup!=null)
             throw new UserAccessGroupAlreadyExistException("User access group with name: " + name + " is already exist.");
 
@@ -251,7 +300,7 @@ public class UserDao implements IUserDao {
         if (userAccessGroup==null)
             throw new UserAccessGroupNotFoundException("User access group: " + userAccessGroup + " was not found");
 
-        UserAccessGroup currentGroup = getUserAccessGroup(userAccessGroup.getName());
+        UserAccessGroup currentGroup = getUserAccessGroupById(userAccessGroup.getId());
         if (currentGroup==null)
             throw new UserAccessGroupNotFoundException("User access group " + userAccessGroup + " not found");
 
@@ -264,7 +313,7 @@ public class UserDao implements IUserDao {
      * @param password user password
      * @throws IncorrectUserCredentialsException if passed incorrect email or password data
      */
-    public String login(String email, String password) throws IncorrectUserCredentialsException {
+    public User login(String email, String password) throws IncorrectUserCredentialsException {
 
         if (email == null || password == null)
             throw new IncorrectUserCredentialsException();
@@ -278,7 +327,7 @@ public class UserDao implements IUserDao {
         currentUser.setToken(newToken);
         persist(currentUser);
 
-        return newToken;
+        return currentUser;
     }
 
     /**
@@ -308,7 +357,7 @@ public class UserDao implements IUserDao {
         if(currentUser!=null)
             throw new UserAlreadyExistException("User with email: " + email + " already exists");
 
-        User newUser = new User(email, password);
+        User newUser = new User(email, password, getUserAccessGroupByName("admin"));
         save(newUser);
     }
 
